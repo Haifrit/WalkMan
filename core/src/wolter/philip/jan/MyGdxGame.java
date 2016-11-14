@@ -6,7 +6,12 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
+import javafx.scene.input.KeyCode;
+
+
 public class MyGdxGame extends ApplicationAdapter {
+
+	private static final String LOG_TAG =MyGdxGame.class.getSimpleName();
 	SpriteBatch batch;
 	Texture img;
 	
@@ -23,5 +28,10 @@ public class MyGdxGame extends ApplicationAdapter {
 		batch.begin();
 		batch.draw(img, 0, 0);
 		batch.end();
+
+		if (Gdx.input.isTouched()) {
+			System.out.println(LOG_TAG + "Screen has been touched");
+			Gdx.app.log(LOG_TAG, " Screen has been touched");
+		}
 	}
 }
