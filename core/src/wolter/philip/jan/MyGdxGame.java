@@ -23,15 +23,21 @@ public class MyGdxGame extends ApplicationAdapter {
 
 	@Override
 	public void render () {
+		float xCord = 0;
+		float yCord = 0;
 		Gdx.gl.glClearColor(1, 0, 0, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		batch.begin();
-		batch.draw(img, 0, 0);
+		batch.draw(img, xCord, yCord);
 		batch.end();
 
 		if (Gdx.input.isTouched()) {
-			System.out.println(LOG_TAG + "Screen has been touched");
-			Gdx.app.log(LOG_TAG, " Screen has been touched");
+			xCord = Gdx.input.getX();
+			yCord = Gdx.input.getY();
+			Gdx.app.log(LOG_TAG, " Screen has been touched at X = " + xCord + " Y = " + yCord);
+			batch.begin();
+			batch.draw(img, xCord, yCord);
+			batch.end();
 		}
 	}
 }
