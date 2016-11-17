@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 import javafx.scene.input.KeyCode;
 
@@ -14,6 +15,10 @@ import javafx.scene.input.KeyCode;
 public class MyGdxGame extends ApplicationAdapter {
 
 	private static final String LOG_TAG =MyGdxGame.class.getSimpleName();
+	private static final int        FRAME_COLS = 3;
+	private static final int        FRAME_ROWS = 4;
+	TextureRegion[][] walkieSprites;
+	TextureRegion [] walkieFrames;
 	OrthographicCamera camera;
 	SpriteBatch batch;
 	Texture img,grass,stone,walkie;
@@ -21,6 +26,10 @@ public class MyGdxGame extends ApplicationAdapter {
 	@Override
 	public void create () {
 		batch = new SpriteBatch();
+		walkie = new Texture("walkie.png");
+		walkieSprites = TextureRegion.split(walkie,18,29);
+		walkieFrames = new TextureRegion[FRAME_COLS * FRAME_ROWS];
+		buildWalkieFrames();
 		grass = new Texture("grass.png");
 		stone = new Texture("Stone.png");
 		camera = new OrthographicCamera();
@@ -44,6 +53,15 @@ public class MyGdxGame extends ApplicationAdapter {
 			batch.draw(stone, xCord, yCord);
 		}
 		batch.end();
+	}
+
+	private void buildWalkieFrames () {
+		int index = 0;
+		for (int i = 0; i < FRAME_ROWS; i++) {
+			for (int j = 0; j < FRAME_COLS; j++) {
+				walkieFrames[index++] = walkieSprites[i][j];
+			}
+		}
 	}
 
 	private void drawBackground () {
