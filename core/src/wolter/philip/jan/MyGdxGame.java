@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
@@ -17,11 +18,14 @@ public class MyGdxGame extends ApplicationAdapter {
 	private static final String LOG_TAG =MyGdxGame.class.getSimpleName();
 	private static final int        FRAME_COLS = 3;
 	private static final int        FRAME_ROWS = 4;
+	Animation walkieAnimation;
 	TextureRegion[][] walkieSprites;
 	TextureRegion [] walkieFrames;
+	TextureRegion    currentWalkieFrame;
 	OrthographicCamera camera;
 	SpriteBatch batch;
 	Texture img,grass,stone,walkie;
+	float stateTime;
 	
 	@Override
 	public void create () {
@@ -30,14 +34,18 @@ public class MyGdxGame extends ApplicationAdapter {
 		walkieSprites = TextureRegion.split(walkie,18,29);
 		walkieFrames = new TextureRegion[FRAME_COLS * FRAME_ROWS];
 		buildWalkieFrames();
+		walkieAnimation = new Animation(0.250f, walkieFrames);
 		grass = new Texture("grass.png");
 		stone = new Texture("Stone.png");
 		camera = new OrthographicCamera();
 		camera.setToOrtho(true, 352, 608);
+		stateTime = 0f;
 	}
 
 	@Override
 	public void render () {
+		stateTime += Gdx.graphics.getDeltaTime();
+		currentWalkieFrame = walkieAnimation.getKeyFrame(stateTime, true);
 		float xCord = 0;
 		float yCord = 0;
 		Gdx.gl.glClearColor(1, 0, 0, 1);
@@ -46,6 +54,7 @@ public class MyGdxGame extends ApplicationAdapter {
 		batch.setProjectionMatrix(camera.combined);
 		batch.begin();
 		drawBackground();
+		batch.draw(currentWalkieFrame, 150, 300);
 		if (Gdx.input.isTouched()) {
 			xCord = Gdx.input.getX();
 			yCord = Gdx.input.getY();
