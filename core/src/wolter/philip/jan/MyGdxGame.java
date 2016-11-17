@@ -21,7 +21,6 @@ public class MyGdxGame extends ApplicationAdapter {
 	@Override
 	public void create () {
 		batch = new SpriteBatch();
-		img = new Texture("badlogic.jpg");
 		grass = new Texture("grass.png");
 		stone = new Texture("Stone.png");
 		camera = new OrthographicCamera();
