@@ -18,6 +18,8 @@ public class MyGdxGame extends ApplicationAdapter {
 	private static final String LOG_TAG =MyGdxGame.class.getSimpleName();
 	private static final int        FRAME_COLS = 3;
 	private static final int        FRAME_ROWS = 4;
+	float xPosition;
+	float yPosition;
 	Animation walkieAnimation;
 	Animation walkingUpAnimation;
 	Animation walkingDownAnimation;
@@ -38,6 +40,7 @@ public class MyGdxGame extends ApplicationAdapter {
 	SpriteBatch batch;
 	Texture img,grass,stone,walkie;
 	float stateTime;
+	float lastStateTime;
 	
 	@Override
 	public void create () {
@@ -49,11 +52,15 @@ public class MyGdxGame extends ApplicationAdapter {
 		camera = new OrthographicCamera();
 		camera.setToOrtho(true, 224, 416);
 		stateTime = 0f;
+		lastStateTime = 0f;
+		xPosition = 10;
+		yPosition = 10;
 	}
 
 	@Override
 	public void render () {
 		stateTime += Gdx.graphics.getDeltaTime();
+		Gdx.app.log("RENDER", " statetime is =  " + stateTime);
 		currentWalkingDownFrame = walkingDownAnimation.getKeyFrame(stateTime, true);
 		currentWalkingUpFrame = walkingUpAnimation.getKeyFrame(stateTime, true);
 		currentWalkingLeftFrame = walkingLeftAnimation.getKeyFrame(stateTime, true);
@@ -66,8 +73,9 @@ public class MyGdxGame extends ApplicationAdapter {
 		batch.setProjectionMatrix(camera.combined);
 		batch.begin();
 		drawBackground();
-		batch.draw(currentWalkingDownFrame, 10, 10);
-		batch.draw(currentWalkingUpFrame, 50, 50);
+		batch.draw(currentWalkingDownFrame, 50, 50);
+		moveUp();
+		batch.draw(currentWalkingUpFrame, (int) xPosition, (int) yPosition);
 		batch.draw(currentWalkingLeftFrame, 100, 100);
 		batch.draw(currentWalkingRightFrame, 180, 180);
 		if (Gdx.input.isTouched()) {
@@ -79,28 +87,22 @@ public class MyGdxGame extends ApplicationAdapter {
 		batch.end();
 	}
 
+	private void moveUp () {
+			if (yPosition < 70) {
+				yPosition = yPosition + (35 * Gdx.graphics.getDeltaTime());
+			} else {
+				yPosition = 10;
+			}
+	}
+
 	private void makeWalieFrames () {
-
 		Gdx.app.log("MAKEFRAMES", "start makeWalkieFrames");
-
 		walkie = new Texture("walkie.png");
 		walkieSprites = TextureRegion.split(walkie,18,29);
-
-		Gdx.app.log("MAKEFRAMES", "splitted Texture Region outer Array " + walkieSprites.length);
-		Gdx.app.log("MAKEFRAMES", "splitted Texture Region inner Arryays " + walkieSprites[0].length + walkieSprites[1].length
-		+ walkieSprites[2].length + walkieSprites[3].length);
-
 		walkingUpFrames = walkieSprites [0];
-		Gdx.app.log("MAKEFRAMES", "made walkingUpFrames");
-
 		walkingDownFrames = walkieSprites [1];
-		Gdx.app.log("MAKEFRAMES", "made walkingDownFrames");
-
 		walkingLeftFrames = walkieSprites  [2];
-		Gdx.app.log("MAKEFRAMES", "made walkingLeftFrames");
-
 		walkingRightFrames = walkieSprites  [3];
-		Gdx.app.log("MAKEFRAMES", "made walkingRightFrames");
 	}
 
 	private void makeWalkieAnimations () {
