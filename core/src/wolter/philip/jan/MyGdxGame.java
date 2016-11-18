@@ -20,7 +20,6 @@ public class MyGdxGame extends ApplicationAdapter {
 	private static final int        FRAME_ROWS = 4;
 	float xPosition;
 	float yPosition;
-	Animation walkieAnimation;
 	Animation walkingUpAnimation;
 	Animation walkingDownAnimation;
 	Animation walkingLeftAnimation;
@@ -31,7 +30,6 @@ public class MyGdxGame extends ApplicationAdapter {
 	TextureRegion [] walkingDownFrames;
 	TextureRegion [] walkingRightFrames;
 	TextureRegion [] walkingLeftFrames;
-	TextureRegion    currentWalkieFrame;
 	TextureRegion	currentWalkingRightFrame;
 	TextureRegion	currentWalkingLeftFrame;
 	TextureRegion	currentWalkingUpFrame;
