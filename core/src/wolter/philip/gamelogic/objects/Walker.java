@@ -51,7 +51,9 @@ public class Walker {
     walkingRightAnimation = new Animation(0.250f, walkingRightFrames);
   }
 
-
+  public void moveOneTileLeft (float stateTime) {
+    currentFrame = walkingLeftAnimation.getKeyFrame(stateTime, true);
+  }
 
   public Position getPosition() {
     return position;

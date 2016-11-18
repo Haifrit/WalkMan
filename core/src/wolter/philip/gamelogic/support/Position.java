@@ -8,10 +8,24 @@ public class Position {
   float xPosition;
   float yPosition;
 
+  float xOneTileRight;
+  float xOneTileLeft;
+  float yOneTileUp;
+  float yOneTileDown;
+
   public Position (float xPosition, float yPosition) {
+
     this.xPosition = xPosition;
     this.yPosition = yPosition;
+
+    this.xOneTileRight = xPosition + 32;
+    this.xOneTileLeft = xPosition - 32;
+    this.yOneTileDown = yPosition - 32;
+    this.yOneTileUp = yPosition + 32;
+    
   }
+
+
 
   public void addToXPosition (float addX) {
     xPosition = xPosition + addX;
