@@ -55,7 +55,7 @@ public class MyGdxGame extends ApplicationAdapter {
 		batch.draw(walker.getCurrentFrame(),walker.getPosition().getxPosition(),walker.getPosition().getyPosition());
 
 		if (!reached) {
-			reached = walker.moveLeft(stateTime, 168);
+			reached = walker.moveUp(stateTime,150);
 		}
 
 		if (Gdx.input.isTouched()) {

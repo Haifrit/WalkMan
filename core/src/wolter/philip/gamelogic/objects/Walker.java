@@ -92,7 +92,31 @@ public class Walker {
     if (position.getxPosition() > xDestination) {
       position.setxPosition(xDestination);
       reached = true;
-      //maybe current idle frame
+      currentFrame = walkieSprites[3][1];
+    }
+    return reached;
+  }
+
+  public boolean moveDown (float stateTime, float yDestination) {
+    boolean reached = false;
+    currentFrame = walkingDownAnimation.getKeyFrame(stateTime, true);
+    position.addToYPosition(Gdx.graphics.getDeltaTime() * velocity);
+    if (position.getyPosition() > yDestination) {
+      position.setyPosition(yDestination);
+      reached = true;
+      currentFrame = walkieSprites [1][2];
+    }
+    return reached;
+  }
+
+  public boolean moveUp (float stateTime, float yDestination) {
+    boolean reached = false;
+    currentFrame = walkingUpAnimation.getKeyFrame(stateTime, true);
+    position.subFromYPosition(Gdx.graphics.getDeltaTime() * velocity);
+    if (position.getyPosition() < yDestination) {
+      position.setyPosition(yDestination);
+      reached = true;
+      currentFrame = walkieSprites [0][2];
     }
     return reached;
   }
