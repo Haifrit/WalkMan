@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Vector3;
 
 
 import wolter.philip.gamelogic.objects.Walker;
@@ -18,6 +19,8 @@ public class MyGdxGame extends ApplicationAdapter {
 
 	Walker walker;
 	Position position;
+
+	Vector3 vector3;
 
 	OrthographicCamera camera;
 	SpriteBatch batch;
@@ -59,7 +62,10 @@ public class MyGdxGame extends ApplicationAdapter {
 		}
 
 		if (Gdx.input.isTouched()) {
-			Gdx.app.log(LOG_TAG, "Screen has been touched");
+			Gdx.app.log("Touch", "Screen has been touched");
+			vector3 = new Vector3(Gdx.input.getX(),Gdx.input.getY(),0);
+			camera.unproject(vector3);
+			Gdx.app.log("Touch", "AT X = " + vector3.x + " At Y = " + vector3.y);
 		}
 		batch.end();
 	}
