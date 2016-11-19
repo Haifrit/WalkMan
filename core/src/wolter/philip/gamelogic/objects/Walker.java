@@ -1,5 +1,6 @@
 package wolter.philip.gamelogic.objects;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -45,14 +46,39 @@ public class Walker {
     walkingLeftFrames = walkieSprites  [2];
     walkingRightFrames = walkieSprites  [3];
 
+    for (TextureRegion tr : walkingLeftFrames) {
+      tr.flip(false,true);
+    }
+
     walkingUpAnimation = new Animation(0.250f, walkingUpFrames);
     walkingDownAnimation = new Animation(0.250f, walkingDownFrames);
     walkingLeftAnimation = new Animation(0.250f, walkingLeftFrames);
     walkingRightAnimation = new Animation(0.250f, walkingRightFrames);
+    currentFrame = walkieSprites[2][1];
   }
 
-  public void moveOneTileLeft (float stateTime) {
+  public boolean moveLeft (float stateTime, float xDestination) {
+    boolean reached = false;
     currentFrame = walkingLeftAnimation.getKeyFrame(stateTime, true);
+    position.subFromXPosition(Gdx.graphics.getDeltaTime() * velocity);
+    if (position.getxPosition() < xDestination) {
+        position.setxPosition(xDestination);
+        reached = true;
+        //maybe current idle frame
+    }
+    return reached;
+  }
+
+  public boolean moveRight (float stateTime, float xDestination) {
+    boolean reached = false;
+    currentFrame = walkingRightAnimation.getKeyFrame(stateTime, true);
+    position.addToXPosition(Gdx.graphics.getDeltaTime() * velocity);
+    if (position.getxPosition() > xDestination) {
+      position.setxPosition(xDestination);
+      reached = true;
+      //maybe current idle frame
+    }
+    return reached;
   }
 
   public Position getPosition() {

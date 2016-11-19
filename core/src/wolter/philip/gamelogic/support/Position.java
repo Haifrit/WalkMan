@@ -22,13 +22,21 @@ public class Position {
     this.xOneTileLeft = xPosition - 32;
     this.yOneTileDown = yPosition - 32;
     this.yOneTileUp = yPosition + 32;
-    
+
   }
 
 
 
   public void addToXPosition (float addX) {
     xPosition = xPosition + addX;
+  }
+
+  public void subFromXPosition (float subX) {
+    xPosition = xPosition - subX;
+  }
+
+  public void subFromYPosition (float subY) {
+    yPosition = yPosition - subY;
   }
 
   public void addToYPosition (float addY) {
@@ -41,5 +49,13 @@ public class Position {
 
   public float getyPosition() {
     return yPosition;
+  }
+
+  public void setxPosition(float xPosition) {
+    this.xPosition = xPosition;
+  }
+
+  public void setyPosition(float yPosition) {
+    this.yPosition = yPosition;
   }
 }
