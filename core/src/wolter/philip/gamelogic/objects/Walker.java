@@ -46,15 +46,31 @@ public class Walker {
     walkingLeftFrames = walkieSprites  [2];
     walkingRightFrames = walkieSprites  [3];
 
-    for (TextureRegion tr : walkingLeftFrames) {
-      tr.flip(false,true);
-    }
+    flipTextureRegions();
 
     walkingUpAnimation = new Animation(0.250f, walkingUpFrames);
     walkingDownAnimation = new Animation(0.250f, walkingDownFrames);
     walkingLeftAnimation = new Animation(0.250f, walkingLeftFrames);
     walkingRightAnimation = new Animation(0.250f, walkingRightFrames);
-    currentFrame = walkieSprites[2][1];
+    currentFrame = walkieSprites[2][0];
+  }
+
+  private void flipTextureRegions () {
+    for (TextureRegion tr : walkingLeftFrames) {
+      tr.flip(false,true);
+    }
+
+    for (TextureRegion tr : walkingRightFrames) {
+      tr.flip(false,true);
+    }
+
+    for (TextureRegion tr : walkingDownFrames) {
+      tr.flip(false,true);
+    }
+
+    for (TextureRegion tr : walkingUpFrames) {
+      tr.flip(false,true);
+    }
   }
 
   public boolean moveLeft (float stateTime, float xDestination) {
@@ -64,7 +80,7 @@ public class Walker {
     if (position.getxPosition() < xDestination) {
         position.setxPosition(xDestination);
         reached = true;
-        //maybe current idle frame
+        currentFrame = walkieSprites[2][1];
     }
     return reached;
   }
