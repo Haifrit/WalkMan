@@ -12,6 +12,7 @@ import com.badlogic.gdx.math.Vector3;
 import java.util.ArrayList;
 import java.util.List;
 
+import wolter.philip.gamelogic.objects.BackgroundTile;
 import wolter.philip.gamelogic.objects.Walker;
 import wolter.philip.gamelogic.support.Position;
 import wolter.philip.gamelogic.support.Waypoint;
@@ -22,6 +23,7 @@ public class MyGdxGame extends ApplicationAdapter {
 	private static final String LOG_TAG =MyGdxGame.class.getSimpleName();
 
 	List<Waypoint> waypointList;
+	List<BackgroundTile> backgroundTileList;
 	Waypoint waypoint1;
 	Waypoint waypoint2;
 	Waypoint waypoint3;
@@ -62,6 +64,8 @@ public class MyGdxGame extends ApplicationAdapter {
 		walker = new Walker(position);
 		batch = new SpriteBatch();
 		grass = new Texture("grass.png");
+		backgroundTileList = new ArrayList<BackgroundTile>();
+		createInitialBackgroundTiles();
 		camera = new OrthographicCamera();
 		camera.setToOrtho(true, 224, 416);
 		stateTime = 0f;
@@ -80,9 +84,9 @@ public class MyGdxGame extends ApplicationAdapter {
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		camera.update();
 		batch.setProjectionMatrix(camera.combined);
-
 		batch.begin();
-		drawBackground();
+		//drawBackground();
+		drawBackgroundFromList();
 
 		batch.draw(walker.getCurrentFrame(),walker.getPosition().getxPosition(),walker.getPosition().getyPosition());
 
@@ -96,6 +100,15 @@ public class MyGdxGame extends ApplicationAdapter {
 			Gdx.app.log("Touch", "AT X = " + vector3.x + " At Y = " + vector3.y);
 		}
 		batch.end();
+	}
+
+	private void createInitialBackgroundTiles () {
+		for (int x = 0; x <= 224; x = x + 32) {
+			for (int y = 0; y <= 416; y = y + 32) {
+				BackgroundTile backgroundTile = new BackgroundTile(x,y,grass);
+				backgroundTileList.add(backgroundTile);
+			}
+		}
 	}
 
 	private void moveWalkerTowardsWaypoint () {
@@ -137,9 +150,15 @@ public class MyGdxGame extends ApplicationAdapter {
 		}
 	}
 
+	private void drawBackgroundFromList () {
+		for (BackgroundTile backgroundTile : backgroundTileList) {
+			batch.draw(backgroundTile.getTexture(),backgroundTile.getxPosition(),backgroundTile.getyPosition());
+		}
+	}
+
 	private void drawBackground () {
-		for (int x = 0; x <= 352; x = x + 32) {
-			for (int y = 0; y <= 608; y = y + 32) {
+		for (int x = 0; x <= 224; x = x + 32) {
+			for (int y = 0; y <= 416; y = y + 32) {
 				batch.draw(grass, x, y);
 			}
 		}
