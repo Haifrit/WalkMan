@@ -80,9 +80,10 @@ public class MyGdxGame extends ApplicationAdapter {
 
 		batch.draw(walker.getCurrentFrame(),walker.getPosition().getxPosition(),walker.getPosition().getyPosition());
 
-		if (waypointList.size() > 0) {
 
-			if (waypointList.get(index).getDirection() == "UP") {
+
+			if ((waypointList.size() > 0) && waypointList.get(index).getDirection() == "UP"  ) {
+				Gdx.app.log("RENDER", "In Up");
 				if (!reached) {
 					reached = walker.moveUp(stateTime,waypointList.get(index).getDestination());
 				} else {
@@ -92,7 +93,8 @@ public class MyGdxGame extends ApplicationAdapter {
 				}
 			}
 
-			if (waypointList.get(index).getDirection() == "RIGHT") {
+			if ((waypointList.size() > 0) && waypointList.get(index).getDirection() == "RIGHT"  ) {
+				Gdx.app.log("RENDER", "In Right");
 				if (!reached) {
 					reached = walker.moveRight(stateTime,waypointList.get(index).getDestination());
 				} else {
@@ -101,11 +103,7 @@ public class MyGdxGame extends ApplicationAdapter {
 					Gdx.app.log("RENDER", "Removed Waypoint");
 				}
 			}
-		}
 
-		if (!reached) {
-			reached = walker.moveUp(stateTime,0);
-		}
 
 		if (Gdx.input.isTouched()) {
 			Gdx.app.log("Touch", "Screen has been touched");

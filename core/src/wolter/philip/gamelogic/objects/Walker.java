@@ -13,7 +13,7 @@ import wolter.philip.gamelogic.support.Position;
 
 public class Walker {
 
-  int velocity = 35;
+  int velocity = 45;
   Position position;
 
   TextureRegion[][] tmp;
