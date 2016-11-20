@@ -25,6 +25,8 @@ public class MyGdxGame extends ApplicationAdapter {
 	Waypoint waypoint1;
 	Waypoint waypoint2;
 	Waypoint waypoint3;
+	Waypoint waypoint4;
+	Waypoint waypoint5;
 	Waypoint current;
 	int index;
 
@@ -44,13 +46,17 @@ public class MyGdxGame extends ApplicationAdapter {
 	@Override
 	public void create () {
 		index = 0;
-		waypoint1 = new Waypoint("UP", 288);
+		waypoint1 = new Waypoint("UP", 224);
 		waypoint2 = new Waypoint("RIGHT", 164);
-		waypoint3 = new Waypoint("UP",0);
+		waypoint3 = new Waypoint("DOWN",320);
+		waypoint4 = new Waypoint("LEFT", 100);
+		waypoint5 = new Waypoint("UP",0);
 		waypointList = new ArrayList<Waypoint>();
 		waypointList.add(waypoint1);
 		waypointList.add(waypoint2);
 		waypointList.add(waypoint3);
+		waypointList.add(waypoint4);
+		waypointList.add(waypoint5);
 		reached = false;
 		position = new Position(100,416);
 		walker = new Walker(position);
@@ -80,29 +86,7 @@ public class MyGdxGame extends ApplicationAdapter {
 
 		batch.draw(walker.getCurrentFrame(),walker.getPosition().getxPosition(),walker.getPosition().getyPosition());
 
-
-
-			if ((waypointList.size() > 0) && waypointList.get(index).getDirection() == "UP"  ) {
-				Gdx.app.log("RENDER", "In Up");
-				if (!reached) {
-					reached = walker.moveUp(stateTime,waypointList.get(index).getDestination());
-				} else {
-					reached = false;
-					waypointList.remove(0);
-					Gdx.app.log("RENDER", "Removed Waypoint");
-				}
-			}
-
-			if ((waypointList.size() > 0) && waypointList.get(index).getDirection() == "RIGHT"  ) {
-				Gdx.app.log("RENDER", "In Right");
-				if (!reached) {
-					reached = walker.moveRight(stateTime,waypointList.get(index).getDestination());
-				} else {
-					reached = false;
-					waypointList.remove(0);
-					Gdx.app.log("RENDER", "Removed Waypoint");
-				}
-			}
+		moveWalkerTowardsWaypoint();
 
 
 		if (Gdx.input.isTouched()) {
@@ -112,6 +96,45 @@ public class MyGdxGame extends ApplicationAdapter {
 			Gdx.app.log("Touch", "AT X = " + vector3.x + " At Y = " + vector3.y);
 		}
 		batch.end();
+	}
+
+	private void moveWalkerTowardsWaypoint () {
+
+		if ((waypointList.size() > 0) && waypointList.get(index).getDirection() == "UP"  ) {
+			if (!reached) {
+				reached = walker.moveUp(stateTime,waypointList.get(index).getDestination());
+			} else {
+				reached = false;
+				waypointList.remove(0);
+			}
+		}
+
+		if ((waypointList.size() > 0) && waypointList.get(index).getDirection() == "RIGHT"  ) {
+			if (!reached) {
+				reached = walker.moveRight(stateTime,waypointList.get(index).getDestination());
+			} else {
+				reached = false;
+				waypointList.remove(0);
+			}
+		}
+
+		if ((waypointList.size() > 0) && waypointList.get(index).getDirection() == "LEFT"  ) {
+			if (!reached) {
+				reached = walker.moveLeft(stateTime,waypointList.get(index).getDestination());
+			} else {
+				reached = false;
+				waypointList.remove(0);
+			}
+		}
+
+		if ((waypointList.size() > 0) && waypointList.get(index).getDirection() == "DOWN"  ) {
+			if (!reached) {
+				reached = walker.moveDown(stateTime,waypointList.get(index).getDestination());
+			} else {
+				reached = false;
+				waypointList.remove(0);
+			}
+		}
 	}
 
 	private void drawBackground () {
