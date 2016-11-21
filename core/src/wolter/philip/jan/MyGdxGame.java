@@ -111,10 +111,24 @@ public class MyGdxGame extends ApplicationAdapter {
 			vector3 = new Vector3(Gdx.input.getX(),Gdx.input.getY(),0);
 			camera.unproject(vector3);
 			Gdx.app.log("Touch", "AT X = " + vector3.x + " At Y = " + vector3.y);
-			BackgroundTile backgroundTile = new BackgroundTile((int) vector3.x,(int) vector3.y,trStone);
+			BackgroundTile backgroundTile = new BackgroundTile(calculateStoneX(vector3.x),calculateStoneY(vector3.y),trStone);
 			stones.add(backgroundTile);
 		}
 		batch.end();
+	}
+
+	private int calculateStoneX (float vector) {
+		Gdx.app.log("Touch", "X Touch vector as float" + vector);
+		int erg = (int) (vector / 32);
+		Gdx.app.log("Touch", "X Touch vector as int" + erg);
+		return erg * 32;
+	}
+
+	private int calculateStoneY (float vector) {
+		Gdx.app.log("Touch", "Y Touch vector as float" + vector);
+		int erg = (int) (vector / 32);
+		Gdx.app.log("Touch", "Y Touch vector as int" + erg);
+		return erg * 32;
 	}
 
 	private void createInitialBackgroundTiles () {
