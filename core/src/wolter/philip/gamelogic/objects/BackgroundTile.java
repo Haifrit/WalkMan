@@ -1,6 +1,7 @@
 package wolter.philip.gamelogic.objects;
 
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 /**
  * Created by J.Wolter on 20.11.2016.
@@ -9,15 +10,15 @@ import com.badlogic.gdx.graphics.Texture;
 public class BackgroundTile {
   int xPosition;
   int yPosition;
-  Texture texture;
+  TextureRegion texture;
 
-  public BackgroundTile(int xPosition, int yPosition, Texture texture) {
+  public BackgroundTile(int xPosition, int yPosition, TextureRegion texture) {
     this.xPosition = xPosition;
     this.yPosition = yPosition;
     this.texture = texture;
   }
 
-  public void setTexture(Texture texture) {
+  public void setTexture(TextureRegion texture) {
     this.texture = texture;
   }
 
@@ -29,7 +30,7 @@ public class BackgroundTile {
     return yPosition;
   }
 
-  public Texture getTexture() {
+  public TextureRegion getTexture() {
     return texture;
   }
 }

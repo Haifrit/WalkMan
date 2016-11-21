@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector3;
 
 
@@ -24,6 +25,7 @@ public class MyGdxGame extends ApplicationAdapter {
 
 	List<Waypoint> waypointList;
 	List<BackgroundTile> backgroundTileList;
+	List<BackgroundTile> stones;
 	Waypoint waypoint1;
 	Waypoint waypoint2;
 	Waypoint waypoint3;
@@ -39,7 +41,9 @@ public class MyGdxGame extends ApplicationAdapter {
 
 	OrthographicCamera camera;
 	SpriteBatch batch;
-	Texture grass;
+	Texture grass,stone;
+	TextureRegion trGrass;
+	TextureRegion trStone;
 
 	float stateTime;
 	float lastStateTime;
@@ -64,7 +68,15 @@ public class MyGdxGame extends ApplicationAdapter {
 		walker = new Walker(position);
 		batch = new SpriteBatch();
 		grass = new Texture("grass.png");
+		stone = new Texture("Stone.png");
+		trGrass = new TextureRegion();
+		trStone = new TextureRegion();
+		trGrass.setRegion(grass);
+		trStone.setRegion(stone);
+		trGrass.flip(false,true);
+		trStone.flip(false,true);
 		backgroundTileList = new ArrayList<BackgroundTile>();
+		stones = new ArrayList<BackgroundTile>();
 		createInitialBackgroundTiles();
 		camera = new OrthographicCamera();
 		camera.setToOrtho(true, 224, 416);
@@ -92,12 +104,15 @@ public class MyGdxGame extends ApplicationAdapter {
 
 		moveWalkerTowardsWaypoint();
 
+		drawStones();
 
 		if (Gdx.input.isTouched()) {
 			Gdx.app.log("Touch", "Screen has been touched");
 			vector3 = new Vector3(Gdx.input.getX(),Gdx.input.getY(),0);
 			camera.unproject(vector3);
 			Gdx.app.log("Touch", "AT X = " + vector3.x + " At Y = " + vector3.y);
+			BackgroundTile backgroundTile = new BackgroundTile((int) vector3.x,(int) vector3.y,trStone);
+			stones.add(backgroundTile);
 		}
 		batch.end();
 	}
@@ -105,7 +120,7 @@ public class MyGdxGame extends ApplicationAdapter {
 	private void createInitialBackgroundTiles () {
 		for (int x = 0; x <= 224; x = x + 32) {
 			for (int y = 0; y <= 416; y = y + 32) {
-				BackgroundTile backgroundTile = new BackgroundTile(x,y,grass);
+				BackgroundTile backgroundTile = new BackgroundTile(x,y,trGrass);
 				backgroundTileList.add(backgroundTile);
 			}
 		}
@@ -147,6 +162,12 @@ public class MyGdxGame extends ApplicationAdapter {
 				reached = false;
 				waypointList.remove(0);
 			}
+		}
+	}
+
+	private void drawStones () {
+		for ( BackgroundTile backgroundTile : stones) {
+			batch.draw(backgroundTile.getTexture(),backgroundTile.getxPosition(),backgroundTile.getyPosition());
 		}
 	}
 
