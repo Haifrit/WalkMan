@@ -13,6 +13,7 @@ import com.badlogic.gdx.math.Vector3;
 import java.util.ArrayList;
 import java.util.List;
 
+import wolter.philip.gamelogic.logic.GameLogic;
 import wolter.philip.gamelogic.objects.BackgroundTile;
 import wolter.philip.gamelogic.objects.Walker;
 import wolter.philip.gamelogic.support.Position;
@@ -34,6 +35,7 @@ public class MyGdxGame extends ApplicationAdapter {
 	Waypoint current;
 	int index;
 
+	GameLogic gameLogic;
 	Walker walker;
 	Position position;
 
@@ -78,6 +80,7 @@ public class MyGdxGame extends ApplicationAdapter {
 		backgroundTileList = new ArrayList<BackgroundTile>();
 		stones = new ArrayList<BackgroundTile>();
 		createInitialBackgroundTiles();
+		gameLogic = new GameLogic(makeDummyWallList());
 		camera = new OrthographicCamera();
 		camera.setToOrtho(true, 224, 416);
 		stateTime = 0f;
@@ -191,11 +194,12 @@ public class MyGdxGame extends ApplicationAdapter {
 		}
 	}
 
-	private void drawBackground () {
-		for (int x = 0; x <= 224; x = x + 32) {
-			for (int y = 0; y <= 416; y = y + 32) {
-				batch.draw(grass, x, y);
-			}
-		}
+	private List<wolter.philip.gamelogic.astern.Position> makeDummyWallList () {
+		List<wolter.philip.gamelogic.astern.Position> list = new ArrayList<wolter.philip.gamelogic.astern.Position>();
+		wolter.philip.gamelogic.astern.Position p1 = new wolter.philip.gamelogic.astern.Position(1,1);
+		wolter.philip.gamelogic.astern.Position p2 = new wolter.philip.gamelogic.astern.Position(1,2);
+		list.add(p1);
+		list.add(p2);
+		return list;
 	}
 }
