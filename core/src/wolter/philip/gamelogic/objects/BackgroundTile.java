@@ -33,4 +33,12 @@ public class BackgroundTile {
   public TextureRegion getTexture() {
     return texture;
   }
+
+  public boolean isEqual (BackgroundTile backgroundTile) {
+    if ((backgroundTile.getxPosition() == this.xPosition) && (backgroundTile.getyPosition() == this.getyPosition())) {
+      return true;
+    } else {
+      return false;
+    }
+  }
 }
