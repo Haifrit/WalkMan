@@ -25,6 +25,7 @@ public class MyGdxGame extends ApplicationAdapter {
 
 	private static final String LOG_TAG =MyGdxGame.class.getSimpleName();
 
+	List<AstarPosition> astarPositionList;
 	List<Waypoint> waypointList;
 	List<BackgroundTile> backgroundTileList;
 	List<BackgroundTile> stones;
@@ -81,6 +82,7 @@ public class MyGdxGame extends ApplicationAdapter {
 		backgroundTileList = new ArrayList<BackgroundTile>();
 		stones = new ArrayList<BackgroundTile>();
 		createInitialBackgroundTiles();
+		astarPositionList = new ArrayList<AstarPosition>();
 		gameLogic = new GameLogic(makeDummyWallList());
 		camera = new OrthographicCamera();
 		camera.setToOrtho(true, 224, 416);
@@ -115,10 +117,18 @@ public class MyGdxGame extends ApplicationAdapter {
 			vector3 = new Vector3(Gdx.input.getX(),Gdx.input.getY(),0);
 			camera.unproject(vector3);
 			Gdx.app.log("Touch", "AT X = " + vector3.x + " At Y = " + vector3.y);
+			convertTextureToAstarGridAndAddToWalls(vector3.x, vector3.y);
 			BackgroundTile backgroundTile = new BackgroundTile(calculateStoneX(vector3.x),calculateStoneY(vector3.y),trStone);
 			stones.add(backgroundTile);
 		}
 		batch.end();
+	}
+
+	private void convertTextureToAstarGridAndAddToWalls (float vectorX, float vectorY) {
+		int xPosition = (int) (vectorX / 32);
+		int yPosition = (int) (vectorY / 32);
+		AstarPosition astarPosition = new AstarPosition(xPosition, yPosition);
+		astarPositionList.add(astarPosition);
 	}
 
 	private int calculateStoneX (float vector) {
