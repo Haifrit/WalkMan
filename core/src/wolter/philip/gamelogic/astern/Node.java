@@ -11,10 +11,10 @@ public class Node {
   //The parent Node
   Node parent;
   //The position of the Node
-  Position position;
+  AstarPosition position;
   
   //Constructor for the start Node
-  public Node(int gValue, int hValue, Position position) {
+  public Node(int gValue, int hValue, AstarPosition position) {
     super();
     this.gValue = gValue;
     this.hValue = hValue;
@@ -24,7 +24,7 @@ public class Node {
   }
   
   //Constructor for all other Nodes
-  public Node (int gValue, int hValue, Position position, Node parent) {
+  public Node (int gValue, int hValue, AstarPosition position, Node parent) {
     super();
     this.gValue = gValue;
     this.hValue = hValue;
@@ -38,7 +38,7 @@ public class Node {
     this.parent = parent;
   }
 
-  public Position getPosition() {
+  public AstarPosition getPosition() {
     return position;
   }
   

@@ -9,7 +9,7 @@ import wolter.philip.gamelogic.support.NodeComparator;
 
 public class Navigator {
   
-  private List<Position> walls;
+  private List<AstarPosition> walls;
   private List<Node> openList;
   private List<Node> closedList;
   private Node current;
@@ -17,7 +17,7 @@ public class Navigator {
   boolean hasPath = true;
   
   
-  public Navigator(List<Position> walls) {
+  public Navigator(List<AstarPosition> walls) {
     super();
     this.walls = walls;
     System.out.println("Walls");
@@ -26,12 +26,12 @@ public class Navigator {
     closedList = new ArrayList<Node>();
   }
   
-  public boolean hasPathToDestination (Position start, Position destination) {
+  public boolean hasPathToDestination (AstarPosition start, AstarPosition destination) {
    findPath(start, destination);
     return hasPath;
   }
   
-  public List<Node> findPath (Position start, Position destination) {
+  public List<Node> findPath (AstarPosition start, AstarPosition destination) {
     
     hasPath = true;
     
@@ -110,14 +110,14 @@ public class Navigator {
     int parentGValue = node.getgValue();
     
     
-    Position leftAbove = new Position(node.getPosition().getX() - 1, node.getPosition().getY() - 1);
-    Position directAbove = new Position(node.getPosition().getX(), node.getPosition().getY() - 1);
-    Position rightAbove = new Position(node.getPosition().getX() + 1, node.getPosition().getY() - 1);
-    Position left = new Position(node.getPosition().getX() - 1, node.getPosition().getY());
-    Position right = new Position(node.getPosition().getX() + 1, node.getPosition().getY());
-    Position leftBelow = new Position(node.getPosition().getX() - 1, node.getPosition().getY() + 1);
-    Position directBelow = new Position(node.getPosition().getX(), node.getPosition().getY() + 1);
-    Position rightBelow = new Position(node.getPosition().getX() + 1, node.getPosition().getY() + 1);
+    AstarPosition leftAbove = new AstarPosition(node.getPosition().getX() - 1, node.getPosition().getY() - 1);
+    AstarPosition directAbove = new AstarPosition(node.getPosition().getX(), node.getPosition().getY() - 1);
+    AstarPosition rightAbove = new AstarPosition(node.getPosition().getX() + 1, node.getPosition().getY() - 1);
+    AstarPosition left = new AstarPosition(node.getPosition().getX() - 1, node.getPosition().getY());
+    AstarPosition right = new AstarPosition(node.getPosition().getX() + 1, node.getPosition().getY());
+    AstarPosition leftBelow = new AstarPosition(node.getPosition().getX() - 1, node.getPosition().getY() + 1);
+    AstarPosition directBelow = new AstarPosition(node.getPosition().getX(), node.getPosition().getY() + 1);
+    AstarPosition rightBelow = new AstarPosition(node.getPosition().getX() + 1, node.getPosition().getY() + 1);
     
     if (includeDiagonalNeighbours) {
       // gValue is 14 + parentGValue because this square is reached diagonally
@@ -231,9 +231,9 @@ public class Navigator {
     return isIn;
   }
   
-  public boolean checkIfInWalls (Position position) {
+  public boolean checkIfInWalls (AstarPosition position) {
     boolean isIn = false;
-    for (Position p : walls) {
+    for (AstarPosition p : walls) {
       if(position.isEqual(p)) {
         isIn = true;
       }
@@ -245,10 +245,10 @@ public class Navigator {
   /**
    * Estimates the Distance to the Destination
    * Diognal Move cost is 14 straight move cost is 10
-   * @param position / The Position from which the distance is calculated
+   * @param position / The AstarPosition from which the distance is calculated
    * @return the estimated distance
    */
-  private int estimatedDistance (Position position) {
+  private int estimatedDistance (AstarPosition position) {
     // erst Schritte auf der x Achse machen 
     // dann Schritte auf der y Achse machen
     int destX = destinationAsNode.getPosition().getX();
@@ -285,9 +285,9 @@ public class Navigator {
     return sb.toString();
   }
   
-  public String printPositionList (List<Position> listOfPositions) {
+  public String printPositionList (List<AstarPosition> listOfPositions) {
     StringBuilder sb = new StringBuilder();
-    for (Position p : listOfPositions) {
+    for (AstarPosition p : listOfPositions) {
       sb.append(p.toString()).append("\n");
     }
     return sb.toString();

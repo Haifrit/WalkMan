@@ -13,6 +13,7 @@ import com.badlogic.gdx.math.Vector3;
 import java.util.ArrayList;
 import java.util.List;
 
+import wolter.philip.gamelogic.astern.AstarPosition;
 import wolter.philip.gamelogic.logic.GameLogic;
 import wolter.philip.gamelogic.objects.BackgroundTile;
 import wolter.philip.gamelogic.objects.Walker;
@@ -194,10 +195,10 @@ public class MyGdxGame extends ApplicationAdapter {
 		}
 	}
 
-	private List<wolter.philip.gamelogic.astern.Position> makeDummyWallList () {
-		List<wolter.philip.gamelogic.astern.Position> list = new ArrayList<wolter.philip.gamelogic.astern.Position>();
-		wolter.philip.gamelogic.astern.Position p1 = new wolter.philip.gamelogic.astern.Position(1,1);
-		wolter.philip.gamelogic.astern.Position p2 = new wolter.philip.gamelogic.astern.Position(1,2);
+	private List<AstarPosition> makeDummyWallList () {
+		List<AstarPosition> list = new ArrayList<AstarPosition>();
+		AstarPosition p1 = new AstarPosition(1,1);
+		AstarPosition p2 = new AstarPosition(1,2);
 		list.add(p1);
 		list.add(p2);
 		return list;

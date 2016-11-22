@@ -2,12 +2,12 @@ package wolter.philip.gamelogic.astern;
 
 import wolter.philip.gamelogic.support.Bound;
 
-public class Position {
+public class AstarPosition {
   
   private int x;
   private int y;
   
-  public Position(int x, int y) {
+  public AstarPosition(int x, int y) {
     super();
     this.x = x;
     this.y = y;
@@ -27,7 +27,7 @@ public class Position {
     
   }
   
-  public boolean isEqual (Position position) {
+  public boolean isEqual (AstarPosition position) {
     if (position.getX() == x && position.getY() == y) {
       return true;
     } else {
