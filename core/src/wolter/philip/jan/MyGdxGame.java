@@ -17,6 +17,7 @@ import wolter.philip.gamelogic.astern.AstarPosition;
 import wolter.philip.gamelogic.logic.GameLogic;
 import wolter.philip.gamelogic.objects.BackgroundTile;
 import wolter.philip.gamelogic.objects.Walker;
+import wolter.philip.gamelogic.support.GamePhase;
 import wolter.philip.gamelogic.support.Position;
 import wolter.philip.gamelogic.support.Waypoint;
 
@@ -25,6 +26,8 @@ public class MyGdxGame extends ApplicationAdapter {
 
 	private static final String LOG_TAG =MyGdxGame.class.getSimpleName();
 
+	GamePhase gamePhase;
+	int stoneCount;
 	List<AstarPosition> astarPositionList;
 	List<Waypoint> waypointList;
 	List<BackgroundTile> backgroundTileList;
@@ -55,6 +58,8 @@ public class MyGdxGame extends ApplicationAdapter {
 	
 	@Override
 	public void create () {
+		gamePhase = GamePhase.PLACEING;
+		stoneCount = 10;
 		index = 0;
 		waypoint1 = new Waypoint("UP", 224);
 		waypoint2 = new Waypoint("RIGHT", 164);
@@ -95,6 +100,7 @@ public class MyGdxGame extends ApplicationAdapter {
 		if (waypointList.size() > 0) {
 			current = waypointList.get(0);
 		}
+
 		Gdx.app.log("RENDER"," Arraysize = " + waypointList.size());
 		stateTime += Gdx.graphics.getDeltaTime();
 		Gdx.app.log("RENDER", " statetime is =  " + stateTime);
@@ -103,15 +109,22 @@ public class MyGdxGame extends ApplicationAdapter {
 		camera.update();
 		batch.setProjectionMatrix(camera.combined);
 		batch.begin();
-		//drawBackground();
 		drawBackgroundFromList();
 
-		batch.draw(walker.getCurrentFrame(),walker.getPosition().getxPosition(),walker.getPosition().getyPosition());
-
-		moveWalkerTowardsWaypoint();
+		if (gamePhase == GamePhase.PLACEING) {
+			Gdx.app.log("RENDER","In Placing");
+			placingStones();
+		} else {
+			batch.draw(walker.getCurrentFrame(),walker.getPosition().getxPosition(),walker.getPosition().getyPosition());
+			moveWalkerTowardsWaypoint();
+		}
 
 		drawStones();
 
+		batch.end();
+	}
+
+	private void placingStones () {
 		if (Gdx.input.isTouched()) {
 			Gdx.app.log("Touch", "Screen has been touched");
 			vector3 = new Vector3(Gdx.input.getX(),Gdx.input.getY(),0);
@@ -120,8 +133,13 @@ public class MyGdxGame extends ApplicationAdapter {
 			convertTextureToAstarGridAndAddToWalls(vector3.x, vector3.y);
 			BackgroundTile backgroundTile = new BackgroundTile(calculateStoneX(vector3.x),calculateStoneY(vector3.y),trStone);
 			stones.add(backgroundTile);
+			stoneCount--;
+			Gdx.app.log("Touch", "stoneCount--");
 		}
-		batch.end();
+
+		if (stoneCount == 0) {
+			gamePhase = GamePhase.WALKING;
+		}
 	}
 
 	private void convertTextureToAstarGridAndAddToWalls (float vectorX, float vectorY) {
