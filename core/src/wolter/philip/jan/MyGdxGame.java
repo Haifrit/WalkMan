@@ -132,13 +132,25 @@ public class MyGdxGame extends ApplicationAdapter {
 			Gdx.app.log("Touch", "AT X = " + vector3.x + " At Y = " + vector3.y);
 			convertTextureToAstarGridAndAddToWalls(vector3.x, vector3.y);
 			BackgroundTile backgroundTile = new BackgroundTile(calculateStoneX(vector3.x),calculateStoneY(vector3.y),trStone);
-			stones.add(backgroundTile);
-			stoneCount--;
+			checkForDoubleStonesAndAdd(backgroundTile);
 			Gdx.app.log("Touch", "stoneCount--");
 		}
 
 		if (stoneCount == 0) {
 			gamePhase = GamePhase.WALKING;
+		}
+	}
+
+	private void checkForDoubleStonesAndAdd (BackgroundTile backgroundTile) {
+		boolean isIn = false;
+		for (BackgroundTile tileFromList : stones) {
+			if (backgroundTile.isEqual(tileFromList)) {
+				isIn = true;
+			}
+		}
+		if (!isIn) {
+			stones.add(backgroundTile);
+			stoneCount--;
 		}
 	}
 
