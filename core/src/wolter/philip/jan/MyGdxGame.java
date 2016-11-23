@@ -114,7 +114,10 @@ public class MyGdxGame extends ApplicationAdapter {
 		if (gamePhase == GamePhase.PLACEING) {
 			Gdx.app.log("RENDER","In Placing");
 			placingStones();
-		} else {
+		} else if (gamePhase == GamePhase.CALCULATING) {
+			gameLogic =  new GameLogic(astarPositionList);
+			gamePhase = GamePhase.WALKING;
+		} else if (gamePhase == GamePhase.WALKING) {
 			batch.draw(walker.getCurrentFrame(),walker.getPosition().getxPosition(),walker.getPosition().getyPosition());
 			moveWalkerTowardsWaypoint();
 		}
@@ -137,7 +140,7 @@ public class MyGdxGame extends ApplicationAdapter {
 		}
 
 		if (stoneCount == 0) {
-			gamePhase = GamePhase.WALKING;
+			gamePhase = GamePhase.CALCULATING;
 		}
 	}
 

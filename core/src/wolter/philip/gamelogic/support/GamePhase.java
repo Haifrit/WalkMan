@@ -8,6 +8,7 @@ public enum GamePhase {
 
   GENERATING,
   PLACEING,
+  CALCULATING,
   WALKING;
 
 }
