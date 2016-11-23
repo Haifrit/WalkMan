@@ -23,7 +23,6 @@ public class GameLogic {
   public GameLogic (List<AstarPosition> walls) {
 
     navigator = new Navigator(walls);
-    getPathAsWaypoints();
 
   }
 
@@ -54,10 +53,10 @@ public class GameLogic {
       waypoint.setDirection("LEFT");
       waypoint.setDestination(nextPosition.getX() * 32);
     } else if (currentPosition.getY() < nextPosition.getY()) {
-      waypoint.setDirection("UP");
+      waypoint.setDirection("DOWN");
       waypoint.setDestination(nextPosition.getY() * 32);
     } else if (currentPosition.getY() > nextPosition.getY()) {
-      waypoint.setDirection("DOWN");
+      waypoint.setDirection("UP");
       waypoint.setDestination(nextPosition.getY() * 32);
     }
     return waypoint;

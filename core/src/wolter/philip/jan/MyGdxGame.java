@@ -59,7 +59,7 @@ public class MyGdxGame extends ApplicationAdapter {
 	@Override
 	public void create () {
 		gamePhase = GamePhase.PLACEING;
-		stoneCount = 10;
+		stoneCount = 20;
 		index = 0;
 		waypoint1 = new Waypoint("UP", 224);
 		waypoint2 = new Waypoint("RIGHT", 164);
@@ -97,10 +97,6 @@ public class MyGdxGame extends ApplicationAdapter {
 
 	@Override
 	public void render () {
-		if (waypointList.size() > 0) {
-			current = waypointList.get(0);
-		}
-
 		Gdx.app.log("RENDER"," Arraysize = " + waypointList.size());
 		stateTime += Gdx.graphics.getDeltaTime();
 		Gdx.app.log("RENDER", " statetime is =  " + stateTime);
@@ -116,8 +112,12 @@ public class MyGdxGame extends ApplicationAdapter {
 			placingStones();
 		} else if (gamePhase == GamePhase.CALCULATING) {
 			gameLogic =  new GameLogic(astarPositionList);
+			waypointList = gameLogic.getPathAsWaypoints();
 			gamePhase = GamePhase.WALKING;
 		} else if (gamePhase == GamePhase.WALKING) {
+			if (waypointList.size() > 0) {
+				current = waypointList.get(0);
+			}
 			batch.draw(walker.getCurrentFrame(),walker.getPosition().getxPosition(),walker.getPosition().getyPosition());
 			moveWalkerTowardsWaypoint();
 		}
