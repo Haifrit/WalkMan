@@ -20,4 +20,12 @@ public class Waypoint {
   public float getDestination() {
     return destination;
   }
+
+  public void setDirection(String direction) {
+    this.direction = direction;
+  }
+
+  public void setDestination(float destination) {
+    this.destination = destination;
+  }
 }

@@ -32,10 +32,34 @@ public class GameLogic {
     List<Node> nodeList = new LinkedList<Node>();
     nodeList = navigator.findPath(START_POSITION,END_POSITION);
 
-    for (Node node : nodeList) {
-
+    for (int i = 0; i < nodeList.size(); i++) {
+      if ((i + 1) < nodeList.size()) {
+        Waypoint waypoint = calculateWaypoint(nodeList.get(i), nodeList.get(i + 1));
+        waypointList.add(waypoint);
+      }
     }
 
     return waypointList;
+  }
+
+  private Waypoint calculateWaypoint (Node currentNode, Node nextNode) {
+    AstarPosition currentPosition  = currentNode.getPosition();
+    AstarPosition nextPosition = nextNode.getPosition();
+    Waypoint waypoint = new Waypoint("UP",0);
+
+    if (currentPosition.getX() < nextPosition.getX()) {
+      waypoint.setDirection("RIGHT");
+      waypoint.setDestination(nextPosition.getX() * 32);
+    } else if (currentPosition.getX() > nextPosition.getX()) {
+      waypoint.setDirection("LEFT");
+      waypoint.setDestination(nextPosition.getX() * 32);
+    } else if (currentPosition.getY() < nextPosition.getY()) {
+      waypoint.setDirection("UP");
+      waypoint.setDestination(nextPosition.getY() * 32);
+    } else if (currentPosition.getY() > nextPosition.getY()) {
+      waypoint.setDirection("DOWN");
+      waypoint.setDestination(nextPosition.getY() * 32);
+    }
+    return waypoint;
   }
 }
