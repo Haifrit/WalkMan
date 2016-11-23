@@ -26,8 +26,7 @@ public class Navigator {
     closedList = new ArrayList<Node>();
   }
   
-  public boolean hasPathToDestination (AstarPosition start, AstarPosition destination) {
-   findPath(start, destination);
+  public boolean hasPathToDestination () {
     return hasPath;
   }
   
@@ -77,7 +76,8 @@ public class Navigator {
         System.out.println(printNodeList(openList));
         
         System.out.println("____________________________________");
-        
+
+      } else {
         hasPath = false;
       }
     }

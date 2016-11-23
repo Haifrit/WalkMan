@@ -32,6 +32,10 @@ public class GameLogic {
     List<Node> nodeList = new LinkedList<Node>();
     nodeList = navigator.findPath(START_POSITION,END_POSITION);
 
+    for (Node node : nodeList) {
+
+    }
+
     return waypointList;
   }
 }
