@@ -36,11 +36,6 @@ public class MyGdxGame extends ApplicationAdapter {
 	List<Waypoint> waypointList;
 	List<BackgroundTile> backgroundTileList;
 	List<BackgroundTile> stones;
-	Waypoint waypoint1;
-	Waypoint waypoint2;
-	Waypoint waypoint3;
-	Waypoint waypoint4;
-	Waypoint waypoint5;
 	Waypoint current;
 	int index;
 
@@ -65,17 +60,7 @@ public class MyGdxGame extends ApplicationAdapter {
 		gamePhase = GamePhase.PLACEING;
 		stoneCount = 30;
 		index = 0;
-		waypoint1 = new Waypoint("UP", 224);
-		waypoint2 = new Waypoint("RIGHT", 164);
-		waypoint3 = new Waypoint("DOWN",320);
-		waypoint4 = new Waypoint("LEFT", 100);
-		waypoint5 = new Waypoint("UP",0);
 		waypointList = new ArrayList<Waypoint>();
-		waypointList.add(waypoint1);
-		waypointList.add(waypoint2);
-		waypointList.add(waypoint3);
-		waypointList.add(waypoint4);
-		waypointList.add(waypoint5);
 		reached = false;
 		position = new Position(WALKER_START_X,WALKER_START_Y);
 		walker = new Walker(position);
@@ -92,7 +77,6 @@ public class MyGdxGame extends ApplicationAdapter {
 		stones = new ArrayList<BackgroundTile>();
 		createInitialBackgroundTiles();
 		astarPositionList = new ArrayList<AstarPosition>();
-		gameLogic = new GameLogic(makeDummyWallList());
 		camera = new OrthographicCamera();
 		camera.setToOrtho(true, GAME_X_WIDTH, GAME_Y_HEIGHT);
 		stateTime = 0f;
@@ -138,7 +122,7 @@ public class MyGdxGame extends ApplicationAdapter {
 			camera.unproject(vector3);
 			Gdx.app.log("Touch", "AT X = " + vector3.x + " At Y = " + vector3.y);
 			convertTextureToAstarGridAndAddToWalls(vector3.x, vector3.y);
-			BackgroundTile backgroundTile = new BackgroundTile(calculateStoneX(vector3.x),calculateStoneY(vector3.y),trStone);
+			BackgroundTile backgroundTile = new BackgroundTile(calculateStoneXY(vector3.x), calculateStoneXY(vector3.y),trStone);
 			checkForDoubleStonesAndAdd(backgroundTile);
 			Gdx.app.log("Touch", "stoneCount--");
 		}
@@ -168,17 +152,10 @@ public class MyGdxGame extends ApplicationAdapter {
 		astarPositionList.add(astarPosition);
 	}
 
-	private int calculateStoneX (float vector) {
+	private int calculateStoneXY(float vector) {
 		Gdx.app.log("Touch", "X Touch vector as float" + vector);
 		int erg = (int) (vector / 32);
 		Gdx.app.log("Touch", "X Touch vector as int" + erg);
-		return erg * 32;
-	}
-
-	private int calculateStoneY (float vector) {
-		Gdx.app.log("Touch", "Y Touch vector as float" + vector);
-		int erg = (int) (vector / 32);
-		Gdx.app.log("Touch", "Y Touch vector as int" + erg);
 		return erg * 32;
 	}
 
@@ -240,14 +217,5 @@ public class MyGdxGame extends ApplicationAdapter {
 		for (BackgroundTile backgroundTile : backgroundTileList) {
 			batch.draw(backgroundTile.getTexture(),backgroundTile.getxPosition(),backgroundTile.getyPosition());
 		}
-	}
-
-	private List<AstarPosition> makeDummyWallList () {
-		List<AstarPosition> list = new ArrayList<AstarPosition>();
-		AstarPosition p1 = new AstarPosition(1,1);
-		AstarPosition p2 = new AstarPosition(1,2);
-		list.add(p1);
-		list.add(p2);
-		return list;
 	}
 }
