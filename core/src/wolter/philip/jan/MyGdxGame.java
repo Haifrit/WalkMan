@@ -25,6 +25,10 @@ import wolter.philip.gamelogic.support.Waypoint;
 public class MyGdxGame extends ApplicationAdapter {
 
 	private static final String LOG_TAG =MyGdxGame.class.getSimpleName();
+	private static final int GAME_X_WIDTH = 288;
+	private static final int GAME_Y_HEIGHT = 384;
+	private static final int WALKER_START_X = GAME_X_WIDTH / 2;
+	private static final int WALKER_START_Y = GAME_Y_HEIGHT;
 
 	GamePhase gamePhase;
 	int stoneCount;
@@ -59,7 +63,7 @@ public class MyGdxGame extends ApplicationAdapter {
 	@Override
 	public void create () {
 		gamePhase = GamePhase.PLACEING;
-		stoneCount = 20;
+		stoneCount = 30;
 		index = 0;
 		waypoint1 = new Waypoint("UP", 224);
 		waypoint2 = new Waypoint("RIGHT", 164);
@@ -73,7 +77,7 @@ public class MyGdxGame extends ApplicationAdapter {
 		waypointList.add(waypoint4);
 		waypointList.add(waypoint5);
 		reached = false;
-		position = new Position(100,416);
+		position = new Position(WALKER_START_X,WALKER_START_Y);
 		walker = new Walker(position);
 		batch = new SpriteBatch();
 		grass = new Texture("grass.png");
@@ -90,7 +94,7 @@ public class MyGdxGame extends ApplicationAdapter {
 		astarPositionList = new ArrayList<AstarPosition>();
 		gameLogic = new GameLogic(makeDummyWallList());
 		camera = new OrthographicCamera();
-		camera.setToOrtho(true, 224, 416);
+		camera.setToOrtho(true, GAME_X_WIDTH, GAME_Y_HEIGHT);
 		stateTime = 0f;
 		lastStateTime = 0f;
 	}
@@ -179,8 +183,8 @@ public class MyGdxGame extends ApplicationAdapter {
 	}
 
 	private void createInitialBackgroundTiles () {
-		for (int x = 0; x <= 224; x = x + 32) {
-			for (int y = 0; y <= 416; y = y + 32) {
+		for (int x = 0; x <= GAME_X_WIDTH; x = x + 32) {
+			for (int y = 0; y <= GAME_Y_HEIGHT; y = y + 32) {
 				BackgroundTile backgroundTile = new BackgroundTile(x,y,trGrass);
 				backgroundTileList.add(backgroundTile);
 			}
