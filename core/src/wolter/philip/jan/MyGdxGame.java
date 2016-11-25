@@ -95,7 +95,9 @@ public class MyGdxGame extends ApplicationAdapter {
 		batch.begin();
 		drawBackgroundFromList();
 
-		if (gamePhase == GamePhase.PLACEING) {
+		if (gamePhase == GamePhase.GENERATING) {
+
+		} else if (gamePhase == GamePhase.PLACEING) {
 			Gdx.app.log("RENDER","In Placing");
 			placingStones();
 		} else if (gamePhase == GamePhase.CALCULATING) {
@@ -121,7 +123,7 @@ public class MyGdxGame extends ApplicationAdapter {
 			vector3 = new Vector3(Gdx.input.getX(),Gdx.input.getY(),0);
 			camera.unproject(vector3);
 			Gdx.app.log("Touch", "AT X = " + vector3.x + " At Y = " + vector3.y);
-			convertTextureToAstarGridAndAddToWalls(vector3.x, vector3.y);
+			convertTextureToAstarGridAndAddToWalls(vector3.x, vector3.y); // TODO check for doubles
 			BackgroundTile backgroundTile = new BackgroundTile(calculateStoneXY(vector3.x), calculateStoneXY(vector3.y),trStone);
 			checkForDoubleStonesAndAdd(backgroundTile);
 			Gdx.app.log("Touch", "stoneCount--");
@@ -130,6 +132,14 @@ public class MyGdxGame extends ApplicationAdapter {
 		if (stoneCount == 0) {
 			gamePhase = GamePhase.CALCULATING;
 		}
+	}
+
+	private boolean isBlocking (BackgroundTile backgroundTile) {
+		boolean isBlocking = false;
+		List<BackgroundTile> futureStones = new ArrayList<BackgroundTile>();
+		futureStones = stones;
+		stones.add(backgroundTile);
+		return isBlocking;
 	}
 
 	private void checkForDoubleStonesAndAdd (BackgroundTile backgroundTile) {
