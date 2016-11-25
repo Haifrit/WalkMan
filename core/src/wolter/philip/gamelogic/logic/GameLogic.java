@@ -26,6 +26,11 @@ public class GameLogic {
 
   }
 
+  public boolean hasPath () {
+    // vorher muss gatPathAsWayPoints aufgerufen werden
+    return navigator.hasPathToDestination();
+  }
+
   public List<Waypoint> getPathAsWaypoints () {
     List<Waypoint> waypointList = new ArrayList<Waypoint>();
     List<Node> nodeList = new LinkedList<Node>();

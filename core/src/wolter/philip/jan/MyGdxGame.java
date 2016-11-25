@@ -34,6 +34,7 @@ public class MyGdxGame extends ApplicationAdapter {
 	int stoneCount;
 	List<AstarPosition> astarPositionList;
 	List<Waypoint> waypointList;
+	List<AstarPosition> futureList;
 	List<BackgroundTile> backgroundTileList;
 	List<BackgroundTile> stones;
 	Waypoint current;
@@ -123,9 +124,11 @@ public class MyGdxGame extends ApplicationAdapter {
 			vector3 = new Vector3(Gdx.input.getX(),Gdx.input.getY(),0);
 			camera.unproject(vector3);
 			Gdx.app.log("Touch", "AT X = " + vector3.x + " At Y = " + vector3.y);
-			convertTextureToAstarGridAndAddToWalls(vector3.x, vector3.y); // TODO check for doubles
 			BackgroundTile backgroundTile = new BackgroundTile(calculateStoneXY(vector3.x), calculateStoneXY(vector3.y),trStone);
-			checkForDoubleStonesAndAdd(backgroundTile);
+			if (isNotBlocking(backgroundTile)) {
+				convertTextureToAstarGridAndAddToWalls(vector3.x, vector3.y); // TODO check for doubles
+				checkForDoubleStonesAndAdd(backgroundTile);
+			}
 			Gdx.app.log("Touch", "stoneCount--");
 		}
 
@@ -134,12 +137,14 @@ public class MyGdxGame extends ApplicationAdapter {
 		}
 	}
 
-	private boolean isBlocking (BackgroundTile backgroundTile) {
-		boolean isBlocking = false;
-		List<BackgroundTile> futureStones = new ArrayList<BackgroundTile>();
-		futureStones = stones;
-		stones.add(backgroundTile);
-		return isBlocking;
+	private boolean isNotBlocking(BackgroundTile backgroundTile) {
+		futureList = new ArrayList<AstarPosition>();
+		futureList.addAll(astarPositionList);
+		convertTextureToAstarGridAndAddToFuture(backgroundTile.getxPosition(),backgroundTile.getyPosition());
+		GameLogic blockTester = new GameLogic(futureList);
+		blockTester.getPathAsWaypoints();
+		Gdx.app.log("PATHTEST", "Has Path ? == " + blockTester.hasPath());
+		return blockTester.hasPath();
 	}
 
 	private void checkForDoubleStonesAndAdd (BackgroundTile backgroundTile) {
@@ -153,6 +158,13 @@ public class MyGdxGame extends ApplicationAdapter {
 			stones.add(backgroundTile);
 			stoneCount--;
 		}
+	}
+
+	private void convertTextureToAstarGridAndAddToFuture (int xPos, int yPos) {
+		int xPosition = (int) (xPos / 32);
+		int yPosition = (int) (yPos / 32);
+		AstarPosition astarPosition = new AstarPosition(xPosition,yPosition);
+		futureList.add(astarPosition);
 	}
 
 	private void convertTextureToAstarGridAndAddToWalls (float vectorX, float vectorY) {
