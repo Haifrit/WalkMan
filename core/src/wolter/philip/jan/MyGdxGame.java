@@ -63,7 +63,7 @@ public class MyGdxGame extends ApplicationAdapter {
 	public void create () {
 		randomeGenerator = new RandomeGenerator();
 		gamePhase = GamePhase.GENERATING;
-		stoneCount = 30;
+		stoneCount = 25;
 		index = 0;
 		waypointList = new ArrayList<Waypoint>();
 		reached = false;
@@ -110,11 +110,12 @@ public class MyGdxGame extends ApplicationAdapter {
 				AstarPosition astarPosition = new AstarPosition(rX, rY);
 				futureList.add(astarPosition);
 				if (isNotBlockingPreGame()) {
-					astarPositionList.add(astarPosition);
 					BackgroundTile preTile = new BackgroundTile((rX * 32), (rY * 32),trStone);
-					checkForDoubleStonesAndAdd(preTile);
+					if (!isInStones(preTile)) {
+						astarPositionList.add(astarPosition);
+						stones.add(preTile);
+					}
 				}
-
 			}
 			gamePhase = GamePhase.PLACEING;
 		} else if (gamePhase == GamePhase.PLACEING) {
@@ -144,8 +145,11 @@ public class MyGdxGame extends ApplicationAdapter {
 			Gdx.app.log("placing", "in placing AT X = " + vector3.x + " At Y = " + vector3.y);
 			BackgroundTile backgroundTile = new BackgroundTile(calculateStoneXY(vector3.x), calculateStoneXY(vector3.y),trStone);
 			if (isNotBlocking(backgroundTile)) {
-				convertTextureToAstarGridAndAddToWalls(vector3.x, vector3.y); // TODO check for doubles
-				checkForDoubleStonesAndAdd(backgroundTile);
+				if (!isInStones(backgroundTile)) {
+					astarPositionList.add(convertTexturePositionToAstarPosition(vector3.x, vector3.y)); // TODO check for doubles
+					stones.add(backgroundTile);
+					stoneCount--;
+				}
 			}
 			Gdx.app.log("Touch", "stoneCount--");
 		}
@@ -171,17 +175,14 @@ public class MyGdxGame extends ApplicationAdapter {
 		return blockTester.hasPath();
 	}
 
-	private void checkForDoubleStonesAndAdd (BackgroundTile backgroundTile) {
+	private boolean isInStones (BackgroundTile backgroundTile) {
 		boolean isIn = false;
 		for (BackgroundTile tileFromList : stones) {
 			if (backgroundTile.isEqual(tileFromList)) {
 				isIn = true;
 			}
 		}
-		if (!isIn) {
-			stones.add(backgroundTile);
-			stoneCount--;
-		}
+		return isIn;
 	}
 
 	private void convertTextureToAstarGridAndAddToFuture (int xPos, int yPos) {
@@ -191,12 +192,11 @@ public class MyGdxGame extends ApplicationAdapter {
 		futureList.add(astarPosition);
 	}
 
-	private void convertTextureToAstarGridAndAddToWalls (float vectorX, float vectorY) {
+	private AstarPosition convertTexturePositionToAstarPosition (float vectorX, float vectorY) {
 		int xPosition = (int) (vectorX / 32);
 		int yPosition = (int) (vectorY / 32);
-		Gdx.app.log("placing", "in convert AT X = " + xPosition + " At Y = " + yPosition);
 		AstarPosition astarPosition = new AstarPosition(xPosition, yPosition);
-		astarPositionList.add(astarPosition);
+		return astarPosition;
 	}
 
 	private int calculateStoneXY(float vector) {
