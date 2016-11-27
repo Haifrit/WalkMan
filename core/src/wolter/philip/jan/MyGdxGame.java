@@ -17,8 +17,10 @@ import wolter.philip.gamelogic.astern.AstarPosition;
 import wolter.philip.gamelogic.logic.GameLogic;
 import wolter.philip.gamelogic.objects.BackgroundTile;
 import wolter.philip.gamelogic.objects.Walker;
+import wolter.philip.gamelogic.support.Bound;
 import wolter.philip.gamelogic.support.GamePhase;
 import wolter.philip.gamelogic.support.Position;
+import wolter.philip.gamelogic.support.RandomeGenerator;
 import wolter.philip.gamelogic.support.Waypoint;
 
 
@@ -30,6 +32,7 @@ public class MyGdxGame extends ApplicationAdapter {
 	private static final int WALKER_START_X = GAME_X_WIDTH / 2;
 	private static final int WALKER_START_Y = GAME_Y_HEIGHT;
 
+	RandomeGenerator randomeGenerator;
 	GamePhase gamePhase;
 	int stoneCount;
 	List<AstarPosition> astarPositionList;
@@ -58,7 +61,8 @@ public class MyGdxGame extends ApplicationAdapter {
 	
 	@Override
 	public void create () {
-		gamePhase = GamePhase.PLACEING;
+		randomeGenerator = new RandomeGenerator();
+		gamePhase = GamePhase.GENERATING;
 		stoneCount = 30;
 		index = 0;
 		waypointList = new ArrayList<Waypoint>();
@@ -97,9 +101,23 @@ public class MyGdxGame extends ApplicationAdapter {
 		drawBackgroundFromList();
 
 		if (gamePhase == GamePhase.GENERATING) {
+			futureList = new ArrayList<AstarPosition>();
+			int randomStoneCount = randomeGenerator.generateRandomeFromMinToMax(5,15);
+			for (int i = 0; i <= randomStoneCount; i++) {
+				// Eine Position wie sie vom Navigator benötigt wird
+				int rX = randomeGenerator.generateRandomeFromMinToMax(0,(GAME_X_WIDTH / 32));
+				int rY = randomeGenerator.generateRandomeFromMinToMax(0,(GAME_Y_HEIGHT / 32));
+				AstarPosition astarPosition = new AstarPosition(rX, rY);
+				futureList.add(astarPosition);
+				if (isNotBlockingPreGame()) {
+					astarPositionList.add(astarPosition);
+					BackgroundTile preTile = new BackgroundTile((rX * 32), (rY * 32),trStone);
+					checkForDoubleStonesAndAdd(preTile);
+				}
 
+			}
+			gamePhase = GamePhase.PLACEING;
 		} else if (gamePhase == GamePhase.PLACEING) {
-			Gdx.app.log("RENDER","In Placing");
 			placingStones();
 		} else if (gamePhase == GamePhase.CALCULATING) {
 			gameLogic =  new GameLogic(astarPositionList);
@@ -123,7 +141,7 @@ public class MyGdxGame extends ApplicationAdapter {
 			Gdx.app.log("Touch", "Screen has been touched");
 			vector3 = new Vector3(Gdx.input.getX(),Gdx.input.getY(),0);
 			camera.unproject(vector3);
-			Gdx.app.log("Touch", "AT X = " + vector3.x + " At Y = " + vector3.y);
+			Gdx.app.log("placing", "in placing AT X = " + vector3.x + " At Y = " + vector3.y);
 			BackgroundTile backgroundTile = new BackgroundTile(calculateStoneXY(vector3.x), calculateStoneXY(vector3.y),trStone);
 			if (isNotBlocking(backgroundTile)) {
 				convertTextureToAstarGridAndAddToWalls(vector3.x, vector3.y); // TODO check for doubles
@@ -144,6 +162,12 @@ public class MyGdxGame extends ApplicationAdapter {
 		GameLogic blockTester = new GameLogic(futureList);
 		blockTester.getPathAsWaypoints();
 		Gdx.app.log("PATHTEST", "Has Path ? == " + blockTester.hasPath());
+		return blockTester.hasPath();
+	}
+
+	private boolean isNotBlockingPreGame () {
+		GameLogic blockTester = new GameLogic(futureList);
+		blockTester.getPathAsWaypoints();
 		return blockTester.hasPath();
 	}
 
@@ -170,6 +194,7 @@ public class MyGdxGame extends ApplicationAdapter {
 	private void convertTextureToAstarGridAndAddToWalls (float vectorX, float vectorY) {
 		int xPosition = (int) (vectorX / 32);
 		int yPosition = (int) (vectorY / 32);
+		Gdx.app.log("placing", "in convert AT X = " + xPosition + " At Y = " + yPosition);
 		AstarPosition astarPosition = new AstarPosition(xPosition, yPosition);
 		astarPositionList.add(astarPosition);
 	}

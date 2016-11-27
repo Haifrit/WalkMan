@@ -20,8 +20,6 @@ public class Navigator {
   public Navigator(List<AstarPosition> walls) {
     super();
     this.walls = walls;
-    System.out.println("Walls");
-    System.out.println(printPositionList(walls));
     openList = new ArrayList<Node>();
     closedList = new ArrayList<Node>();
   }
@@ -47,35 +45,27 @@ public class Navigator {
     
     // Solange die Node die als n�chstes untersucht werden soll nicht die ZielNode ist muss weiter gesucht werden
     while (!current.isEqual(destinationAsNode) && hasPath) {
-      
-      System.out.println("Closed List");
+
       System.out.println(printNodeList(closedList));
-      
-      System.out.println("Current Node");
+
       System.out.println(current.getPosition().toString());
       
       addAdjacentNodesToOpenList(current, false);
-      
-      System.out.println("OpenList After");
+
       System.out.println(printNodeList(openList));
       
       Collections.sort(openList, new NodeComparator());
-      
-      System.out.println("Sorted Open List");
+
       System.out.println(printNodeList(openList));
       
       if (openList.size() > 0) {
         current = openList.get(0);
-        
-        System.out.println("Current Node");
+
         System.out.println(openList.get(0).getPosition().toString());
         closedList.add(openList.get(0));
         openList.remove(0);
-        
-        System.out.println("Open List after delete");
+
         System.out.println(printNodeList(openList));
-        
-        System.out.println("____________________________________");
 
       } else {
         hasPath = false;
@@ -168,11 +158,6 @@ public class Navigator {
       adjacentNodes.add(directBelowNode);
     }
     
-
-    
-    System.out.println("Adjacent Nodes");
-    System.out.println(printNodeList(adjacentNodes));
-    
     for(Node adjacent : adjacentNodes) {
       checkAndAddAdjacentNodes(adjacent);
     }
@@ -238,7 +223,6 @@ public class Navigator {
         isIn = true;
       }
     }
-    System.out.println("In Walls ? " + isIn);
     return isIn;
   }
   
