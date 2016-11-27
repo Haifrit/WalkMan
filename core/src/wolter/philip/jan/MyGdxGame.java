@@ -51,9 +51,10 @@ public class MyGdxGame extends ApplicationAdapter {
 
 	OrthographicCamera camera;
 	SpriteBatch batch;
-	Texture grass,stone;
+	Texture grass,stone,tower;
 	TextureRegion trGrass;
 	TextureRegion trStone;
+	TextureRegion trTower;
 
 	float stateTime;
 	float lastStateTime;
@@ -72,12 +73,16 @@ public class MyGdxGame extends ApplicationAdapter {
 		batch = new SpriteBatch();
 		grass = new Texture("grass.png");
 		stone = new Texture("Stone.png");
+		tower = new Texture("tower.png");
 		trGrass = new TextureRegion();
 		trStone = new TextureRegion();
+		trTower = new TextureRegion();
 		trGrass.setRegion(grass);
 		trStone.setRegion(stone);
+		trTower.setRegion(tower);
 		trGrass.flip(false,true);
 		trStone.flip(false,true);
+		trTower.flip(false,true);
 		backgroundTileList = new ArrayList<BackgroundTile>();
 		stones = new ArrayList<BackgroundTile>();
 		createInitialBackgroundTiles();
@@ -188,7 +193,7 @@ public class MyGdxGame extends ApplicationAdapter {
 			vector3 = new Vector3(Gdx.input.getX(),Gdx.input.getY(),0);
 			camera.unproject(vector3);
 			Gdx.app.log("placing", "in placing AT X = " + vector3.x + " At Y = " + vector3.y);
-			BackgroundTile backgroundTile = new BackgroundTile(calculateStoneXY(vector3.x), calculateStoneXY(vector3.y),trStone);
+			BackgroundTile backgroundTile = new BackgroundTile(calculateStoneXY(vector3.x), calculateStoneXY(vector3.y),trTower);
 			if (isNotBlocking(backgroundTile)) {
 				if (!isInStones(backgroundTile)) {
 					astarPositionList.add(convertTexturePositionToAstarPosition(vector3.x, vector3.y)); // TODO check for doubles
