@@ -108,6 +108,7 @@ public class MyGdxGame extends ApplicationAdapter {
 		if (gamePhase == GamePhase.GENERATING) {
 			prePlacedStones();
 			futureList = new ArrayList<AstarPosition>();
+			futureList.addAll(astarPositionList);
 			int randomStoneCount = randomeGenerator.generateRandomeFromMinToMax(5,15);
 			for (int i = 0; i <= randomStoneCount; i++) {
 				// Eine Position wie sie vom Navigator benötigt wird
