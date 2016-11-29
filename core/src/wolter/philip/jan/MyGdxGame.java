@@ -137,6 +137,22 @@ public class MyGdxGame extends ApplicationAdapter {
 			}
 			batch.draw(walker.getCurrentFrame(),walker.getPosition().getxPosition(),walker.getPosition().getyPosition());
 			moveWalkerTowardsWaypoint();
+			if (waypointList.size() == 0) {
+				gamePhase = GamePhase.CLEANUP;
+			}
+		} else if (gamePhase == GamePhase.CLEANUP) {
+			if (Gdx.input.isTouched()) {
+				Gdx.app.log("RENDER", "In Cleanup");
+				astarPositionList = new ArrayList<AstarPosition>();
+				waypointList = new ArrayList<Waypoint>();
+				stones = new ArrayList<BackgroundTile>();
+				stoneCount = 25;
+				index = 0;
+				reached = false;
+				position = new Position(WALKER_START_X,WALKER_START_Y);
+				walker = new Walker(position);
+				gamePhase = GamePhase.GENERATING;
+			}
 		}
 
 		drawStones();
