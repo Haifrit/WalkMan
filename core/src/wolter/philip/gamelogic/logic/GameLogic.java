@@ -15,7 +15,7 @@ import wolter.philip.gamelogic.support.Waypoint;
 
 public class GameLogic {
 
-  private static final AstarPosition START_POSITION = new AstarPosition(4,12);
+  private static final AstarPosition START_POSITION = new AstarPosition(4,9);
   private static final AstarPosition END_POSITION = new AstarPosition(4,0);
 
   Navigator navigator;

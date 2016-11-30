@@ -30,7 +30,7 @@ public class MyGdxGame extends ApplicationAdapter {
 	private static final int GAME_X_WIDTH = 288;
 	private static final int GAME_Y_HEIGHT = 384;
 	private static final int WALKER_START_X = GAME_X_WIDTH / 2;
-	private static final int WALKER_START_Y = GAME_Y_HEIGHT;
+	private static final int WALKER_START_Y = GAME_Y_HEIGHT - 96;
 
 	RandomeGenerator randomeGenerator;
 	GamePhase gamePhase;
@@ -113,7 +113,7 @@ public class MyGdxGame extends ApplicationAdapter {
 			for (int i = 0; i <= randomStoneCount; i++) {
 				// Eine Position wie sie vom Navigator benötigt wird
 				int rX = randomeGenerator.generateRandomeFromMinToMax(0,(GAME_X_WIDTH / 32));
-				int rY = randomeGenerator.generateRandomeFromMinToMax(0,(GAME_Y_HEIGHT / 32));
+				int rY = randomeGenerator.generateRandomeFromMinToMax(0,((GAME_Y_HEIGHT - 128) / 32));
 				AstarPosition astarPosition = new AstarPosition(rX, rY);
 				futureList.add(astarPosition);
 				if (isNotBlockingPreGame()) {
@@ -169,23 +169,23 @@ public class MyGdxGame extends ApplicationAdapter {
 	}
 
 	private void prePlacedStones () {
-		AstarPosition pre1 = new AstarPosition(8, 11);
-		AstarPosition pre2 = new AstarPosition(7, 11);
-		AstarPosition pre3 = new AstarPosition(6, 11);
-		AstarPosition pre4 = new AstarPosition(5, 11);
-		AstarPosition pre5 = new AstarPosition(3, 11);
-		AstarPosition pre6 = new AstarPosition(2, 11);
-		AstarPosition pre7 = new AstarPosition(1, 11);
-		AstarPosition pre8 = new AstarPosition(0, 11);
+		AstarPosition pre1 = new AstarPosition(8, 9);
+		AstarPosition pre2 = new AstarPosition(7, 9);
+		AstarPosition pre3 = new AstarPosition(6, 9);
+		AstarPosition pre4 = new AstarPosition(5, 9);
+		AstarPosition pre5 = new AstarPosition(3, 9);
+		AstarPosition pre6 = new AstarPosition(2, 9);
+		AstarPosition pre7 = new AstarPosition(1, 9);
+		AstarPosition pre8 = new AstarPosition(0, 9);
 
-		BackgroundTile preTile1 = new BackgroundTile((8 * 32), (11 * 32),trStone);
-		BackgroundTile preTile2 = new BackgroundTile((7 * 32), (11 * 32),trStone);
-		BackgroundTile preTile3 = new BackgroundTile((6 * 32), (11 * 32),trStone);
-		BackgroundTile preTile4 = new BackgroundTile((5 * 32), (11 * 32),trStone);
-		BackgroundTile preTile5 = new BackgroundTile((3 * 32), (11 * 32),trStone);
-		BackgroundTile preTile6 = new BackgroundTile((2 * 32), (11 * 32),trStone);
-		BackgroundTile preTile7 = new BackgroundTile((1 * 32), (11 * 32),trStone);
-		BackgroundTile preTile8 = new BackgroundTile((0 * 32), (11 * 32),trStone);
+		BackgroundTile preTile1 = new BackgroundTile((8 * 32), (9 * 32),trStone);
+		BackgroundTile preTile2 = new BackgroundTile((7 * 32), (9 * 32),trStone);
+		BackgroundTile preTile3 = new BackgroundTile((6 * 32), (9 * 32),trStone);
+		BackgroundTile preTile4 = new BackgroundTile((5 * 32), (9 * 32),trStone);
+		BackgroundTile preTile5 = new BackgroundTile((3 * 32), (9 * 32),trStone);
+		BackgroundTile preTile6 = new BackgroundTile((2 * 32), (9 * 32),trStone);
+		BackgroundTile preTile7 = new BackgroundTile((1 * 32), (9 * 32),trStone);
+		BackgroundTile preTile8 = new BackgroundTile((0 * 32), (9 * 32),trStone);
 
 		astarPositionList.add(pre1);
 		stones.add(preTile1);
@@ -283,7 +283,7 @@ public class MyGdxGame extends ApplicationAdapter {
 
 	private void createInitialBackgroundTiles () {
 		for (int x = 0; x <= GAME_X_WIDTH; x = x + 32) {
-			for (int y = 0; y <= GAME_Y_HEIGHT; y = y + 32) {
+			for (int y = 0; y <= GAME_Y_HEIGHT - 96; y = y + 32) {
 				BackgroundTile backgroundTile = new BackgroundTile(x,y,trGrass);
 				backgroundTileList.add(backgroundTile);
 			}
