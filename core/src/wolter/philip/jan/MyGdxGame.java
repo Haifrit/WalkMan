@@ -125,13 +125,19 @@ public class MyGdxGame extends ApplicationAdapter {
 				}
 			}
 			gamePhase = GamePhase.PLACEING;
-		} else if (gamePhase == GamePhase.PLACEING) {
+		}
+
+		if (gamePhase == GamePhase.PLACEING) {
 			placingStones();
-		} else if (gamePhase == GamePhase.CALCULATING) {
+		}
+
+		if (gamePhase == GamePhase.CALCULATING) {
 			gameLogic =  new GameLogic(astarPositionList);
 			waypointList = gameLogic.getPathAsWaypoints();
 			gamePhase = GamePhase.WALKING;
-		} else if (gamePhase == GamePhase.WALKING) {
+		}
+
+		if (gamePhase == GamePhase.WALKING) {
 			if (waypointList.size() > 0) {
 				current = waypointList.get(0);
 			}
@@ -140,7 +146,9 @@ public class MyGdxGame extends ApplicationAdapter {
 			if (waypointList.size() == 0) {
 				gamePhase = GamePhase.CLEANUP;
 			}
-		} else if (gamePhase == GamePhase.CLEANUP) {
+		}
+
+		if (gamePhase == GamePhase.CLEANUP) {
 			if (Gdx.input.isTouched()) {
 				Gdx.app.log("RENDER", "In Cleanup");
 				astarPositionList = new ArrayList<AstarPosition>();
