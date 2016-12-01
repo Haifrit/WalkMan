@@ -30,7 +30,7 @@ public class MyGdxGame extends ApplicationAdapter {
 	private static final String LOG_TAG =MyGdxGame.class.getSimpleName();
 	private static final int GAME_X_WIDTH = 288;
 	private static final int GAME_Y_HEIGHT = 384;
-	private static final int WALKER_START_X = GAME_X_WIDTH / 2;
+	private static final int WALKER_START_X = (GAME_X_WIDTH / 2) - 5;
 	private static final int WALKER_START_Y = GAME_Y_HEIGHT - 96;
 
 	BitmapFont bitmapFont;
@@ -67,7 +67,7 @@ public class MyGdxGame extends ApplicationAdapter {
 		bitmapFont = new BitmapFont(true);
 		randomeGenerator = new RandomeGenerator();
 		gamePhase = GamePhase.GENERATING;
-		stoneCount = 25;
+		stoneCount = randomeGenerator.generateRandomeFromMinToMax(10,25);
 		index = 0;
 		waypointList = new ArrayList<Waypoint>();
 		reached = false;
@@ -144,7 +144,7 @@ public class MyGdxGame extends ApplicationAdapter {
 			if (waypointList.size() > 0) {
 				current = waypointList.get(0);
 			}
-			batch.draw(walker.getCurrentFrame(),walker.getPosition().getxPosition(),walker.getPosition().getyPosition());
+			batch.draw(walker.getCurrentFrame(),(walker.getPosition().getxPosition() + 3),walker.getPosition().getyPosition());
 			moveWalkerTowardsWaypoint();
 			if (waypointList.size() == 0) {
 				gamePhase = GamePhase.CLEANUP;
@@ -157,7 +157,7 @@ public class MyGdxGame extends ApplicationAdapter {
 				astarPositionList = new ArrayList<AstarPosition>();
 				waypointList = new ArrayList<Waypoint>();
 				stones = new ArrayList<BackgroundTile>();
-				stoneCount = 25;
+				stoneCount = randomeGenerator.generateRandomeFromMinToMax(10,25);
 				index = 0;
 				reached = false;
 				position = new Position(WALKER_START_X,WALKER_START_Y);
@@ -355,7 +355,7 @@ public class MyGdxGame extends ApplicationAdapter {
 		if (yPosition <= Bound.BOTTOM.getBound()) {
 			isInGameField = true;
 		}
-		return true;
+		return isInGameField;
 	}
 
 	private void drawStoneCount () {

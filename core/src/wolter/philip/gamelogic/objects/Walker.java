@@ -77,7 +77,7 @@ public class Walker {
     boolean reached = false;
     currentFrame = walkingLeftAnimation.getKeyFrame(stateTime, true);
     position.subFromXPosition(Gdx.graphics.getDeltaTime() * velocity);
-    if (position.getxPosition() < xDestination) {
+    if (position.getxPosition() < (xDestination)) {
         position.setxPosition(xDestination);
         reached = true;
         currentFrame = walkieSprites[2][1];
