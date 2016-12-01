@@ -6,7 +6,7 @@ public enum Bound {
   LEFT(0), 
   RIGHT(8),
   TOP(0), 
-  BOTTOM(12);
+  BOTTOM(8);
 
   int bound;
 

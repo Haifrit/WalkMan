@@ -5,6 +5,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector3;
@@ -32,6 +33,7 @@ public class MyGdxGame extends ApplicationAdapter {
 	private static final int WALKER_START_X = GAME_X_WIDTH / 2;
 	private static final int WALKER_START_Y = GAME_Y_HEIGHT - 96;
 
+	BitmapFont bitmapFont;
 	RandomeGenerator randomeGenerator;
 	GamePhase gamePhase;
 	int stoneCount;
@@ -62,6 +64,7 @@ public class MyGdxGame extends ApplicationAdapter {
 	
 	@Override
 	public void create () {
+		bitmapFont = new BitmapFont(true);
 		randomeGenerator = new RandomeGenerator();
 		gamePhase = GamePhase.GENERATING;
 		stoneCount = 25;
@@ -164,6 +167,7 @@ public class MyGdxGame extends ApplicationAdapter {
 		}
 
 		drawStones();
+		drawStoneCount();
 
 		batch.end();
 	}
@@ -221,9 +225,12 @@ public class MyGdxGame extends ApplicationAdapter {
 			BackgroundTile backgroundTile = new BackgroundTile(calculateStoneXY(vector3.x), calculateStoneXY(vector3.y),trTower);
 			if (isNotBlocking(backgroundTile)) {
 				if (!isInStones(backgroundTile)) {
-					astarPositionList.add(convertTexturePositionToAstarPosition(vector3.x, vector3.y)); // TODO check for doubles
-					stones.add(backgroundTile);
-					stoneCount--;
+					if (isInGameField(convertTexturePositionToAstarPosition(vector3.x, vector3.y))) {
+						Gdx.app.log("incheck", "incheck Y = " + vector3.y + " incheck Bound = " + Bound.BOTTOM.getBound());
+						astarPositionList.add(convertTexturePositionToAstarPosition(vector3.x, vector3.y)); // TODO check for doubles
+						stones.add(backgroundTile);
+						stoneCount--;
+					}
 				}
 			}
 			Gdx.app.log("Touch", "stoneCount--");
@@ -339,5 +346,21 @@ public class MyGdxGame extends ApplicationAdapter {
 		for (BackgroundTile backgroundTile : backgroundTileList) {
 			batch.draw(backgroundTile.getTexture(),backgroundTile.getxPosition(),backgroundTile.getyPosition());
 		}
+	}
+
+	private boolean isInGameField (AstarPosition astarPosition) {
+		boolean isInGameField = false;
+		int yPosition = astarPosition.getY();
+		Gdx.app.log("incheck", "incheck Y = " + yPosition);
+		if (yPosition <= Bound.BOTTOM.getBound()) {
+			isInGameField = true;
+		}
+		return true;
+	}
+
+	private void drawStoneCount () {
+		bitmapFont.setColor(1.0f, 1.0f, 1.0f, 1.0f);
+		bitmapFont.getData().setScale(2,2);
+		bitmapFont.draw(batch, "Stones: " + stoneCount, 10, GAME_Y_HEIGHT -42);
 	}
 }
