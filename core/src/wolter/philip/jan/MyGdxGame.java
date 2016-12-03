@@ -21,7 +21,7 @@ import wolter.philip.gamelogic.objects.Walker;
 import wolter.philip.gamelogic.support.Bound;
 import wolter.philip.gamelogic.support.GamePhase;
 import wolter.philip.gamelogic.support.Position;
-import wolter.philip.gamelogic.support.RandomeGenerator;
+import wolter.philip.gamelogic.support.RandomGenerator;
 import wolter.philip.gamelogic.support.Waypoint;
 
 
@@ -34,7 +34,7 @@ public class MyGdxGame extends ApplicationAdapter {
 	private static final int WALKER_START_Y = GAME_Y_HEIGHT - 96;
 
 	BitmapFont bitmapFont;
-	RandomeGenerator randomeGenerator;
+	RandomGenerator randomGenerator;
 	GamePhase gamePhase;
 	int stoneCount;
 	List<AstarPosition> astarPositionList;
@@ -65,9 +65,9 @@ public class MyGdxGame extends ApplicationAdapter {
 	@Override
 	public void create () {
 		bitmapFont = new BitmapFont(true);
-		randomeGenerator = new RandomeGenerator();
+		randomGenerator = new RandomGenerator();
 		gamePhase = GamePhase.GENERATING;
-		stoneCount = randomeGenerator.generateRandomeFromMinToMax(8,16);
+		stoneCount = randomGenerator.generateRandomFromMinToMax(8,16);
 		index = 0;
 		waypointList = new ArrayList<Waypoint>();
 		reached = false;
@@ -112,11 +112,11 @@ public class MyGdxGame extends ApplicationAdapter {
 			prePlacedStones();
 			futureList = new ArrayList<AstarPosition>();
 			futureList.addAll(astarPositionList);
-			int randomStoneCount = randomeGenerator.generateRandomeFromMinToMax(5,15);
+			int randomStoneCount = randomGenerator.generateRandomFromMinToMax(5,15);
 			for (int i = 0; i <= randomStoneCount; i++) {
 				// Eine Position wie sie vom Navigator benötigt wird
-				int rX = randomeGenerator.generateRandomeFromMinToMax(0,(GAME_X_WIDTH / 32));
-				int rY = randomeGenerator.generateRandomeFromMinToMax(1,((GAME_Y_HEIGHT - 128) / 32));
+				int rX = randomGenerator.generateRandomFromMinToMax(0,(GAME_X_WIDTH / 32));
+				int rY = randomGenerator.generateRandomFromMinToMax(1,((GAME_Y_HEIGHT - 128) / 32));
 				AstarPosition astarPosition = new AstarPosition(rX, rY);
 				futureList.add(astarPosition);
 				if (isNotBlockingPreGame()) {
@@ -157,7 +157,7 @@ public class MyGdxGame extends ApplicationAdapter {
 				astarPositionList = new ArrayList<AstarPosition>();
 				waypointList = new ArrayList<Waypoint>();
 				stones = new ArrayList<BackgroundTile>();
-				stoneCount = randomeGenerator.generateRandomeFromMinToMax(8,16);
+				stoneCount = randomGenerator.generateRandomFromMinToMax(8,16);
 				index = 0;
 				reached = false;
 				position = new Position(WALKER_START_X,WALKER_START_Y);
@@ -173,32 +173,33 @@ public class MyGdxGame extends ApplicationAdapter {
 	}
 
 	private void prePlacedStones () {
-		AstarPosition pre1 = new AstarPosition(8, 9);
-		AstarPosition pre2 = new AstarPosition(7, 9);
-		AstarPosition pre3 = new AstarPosition(6, 9);
-		AstarPosition pre4 = new AstarPosition(5, 9);
-		AstarPosition pre5 = new AstarPosition(3, 9);
-		AstarPosition pre6 = new AstarPosition(2, 9);
-		AstarPosition pre7 = new AstarPosition(1, 9);
-		AstarPosition pre8 = new AstarPosition(0, 9);
+		AstarPosition pre1 = new AstarPosition(8, 10);
+		AstarPosition pre2 = new AstarPosition(7, 10);
+		AstarPosition pre3 = new AstarPosition(6, 10);
+		AstarPosition pre4 = new AstarPosition(5, 10);
+		AstarPosition pre5 = new AstarPosition(3, 10);
+		AstarPosition pre6 = new AstarPosition(2, 10);
+		AstarPosition pre7 = new AstarPosition(1, 10);
+		AstarPosition pre8 = new AstarPosition(0, 10);
 
-		AstarPosition pre9 = new AstarPosition(8, 0);
-		AstarPosition pre10 = new AstarPosition(7, 0);
-		AstarPosition pre11 = new AstarPosition(6, 0);
-		AstarPosition pre12 = new AstarPosition(5, 0);
-		AstarPosition pre13 = new AstarPosition(3, 0);
-		AstarPosition pre14 = new AstarPosition(2, 0);
-		AstarPosition pre15 = new AstarPosition(1, 0);
-		AstarPosition pre16 = new AstarPosition(0, 0);
+		AstarPosition pre9 = new AstarPosition(8, -1);
+		AstarPosition pre10 = new AstarPosition(7, -1);
+		AstarPosition pre11 = new AstarPosition(6, -1);
+		AstarPosition pre12 = new AstarPosition(5, -1);
+		AstarPosition pre13 = new AstarPosition(3, -1);
+		AstarPosition pre14 = new AstarPosition(2, -1);
+		AstarPosition pre15 = new AstarPosition(1, -1);
+		AstarPosition pre16 = new AstarPosition(0, -1);
 
-		BackgroundTile preTile1 = new BackgroundTile((8 * 32), (9 * 32),trStone);
-		BackgroundTile preTile2 = new BackgroundTile((7 * 32), (9 * 32),trStone);
-		BackgroundTile preTile3 = new BackgroundTile((6 * 32), (9 * 32),trStone);
-		BackgroundTile preTile4 = new BackgroundTile((5 * 32), (9 * 32),trStone);
-		BackgroundTile preTile5 = new BackgroundTile((3 * 32), (9 * 32),trStone);
-		BackgroundTile preTile6 = new BackgroundTile((2 * 32), (9 * 32),trStone);
-		BackgroundTile preTile7 = new BackgroundTile((1 * 32), (9 * 32),trStone);
-		BackgroundTile preTile8 = new BackgroundTile((0 * 32), (9 * 32),trStone);
+		/*
+		BackgroundTile preTile1 = new BackgroundTile((8 * 32), (10 * 32),trStone);
+		BackgroundTile preTile2 = new BackgroundTile((7 * 32), (10 * 32),trStone);
+		BackgroundTile preTile3 = new BackgroundTile((6 * 32), (10 * 32),trStone);
+		BackgroundTile preTile4 = new BackgroundTile((5 * 32), (10 * 32),trStone);
+		BackgroundTile preTile5 = new BackgroundTile((3 * 32), (10 * 32),trStone);
+		BackgroundTile preTile6 = new BackgroundTile((2 * 32), (10 * 32),trStone);
+		BackgroundTile preTile7 = new BackgroundTile((1 * 32), (10 * 32),trStone);
+		BackgroundTile preTile8 = new BackgroundTile((0 * 32), (10 * 32),trStone);
 
 		BackgroundTile preTile9 = new BackgroundTile((8 * 32), (0 * 32),trStone);
 		BackgroundTile preTile10 = new BackgroundTile((7 * 32), (0 * 32),trStone);
@@ -208,54 +209,43 @@ public class MyGdxGame extends ApplicationAdapter {
 		BackgroundTile preTile14 = new BackgroundTile((2 * 32), (0 * 32),trStone);
 		BackgroundTile preTile15 = new BackgroundTile((1 * 32), (0 * 32),trStone);
 		BackgroundTile preTile16 = new BackgroundTile((0 * 32), (0 * 32),trStone);
+		*/
 
 		astarPositionList.add(pre1);
-		stones.add(preTile1);
-
 		astarPositionList.add(pre2);
-		stones.add(preTile2);
-
 		astarPositionList.add(pre3);
-		stones.add(preTile3);
-
 		astarPositionList.add(pre4);
-		stones.add(preTile4);
-
 		astarPositionList.add(pre5);
-		stones.add(preTile5);
-
 		astarPositionList.add(pre6);
-		stones.add(preTile6);
-
 		astarPositionList.add(pre7);
-		stones.add(preTile7);
-
 		astarPositionList.add(pre8);
-		stones.add(preTile8);
-
 		astarPositionList.add(pre9);
-		stones.add(preTile9);
-
 		astarPositionList.add(pre10);
-		stones.add(preTile10);
-
 		astarPositionList.add(pre11);
-		stones.add(preTile11);
-
 		astarPositionList.add(pre12);
-		stones.add(preTile12);
-
 		astarPositionList.add(pre13);
-		stones.add(preTile13);
-
 		astarPositionList.add(pre14);
-		stones.add(preTile14);
-
 		astarPositionList.add(pre15);
-		stones.add(preTile15);
-
 		astarPositionList.add(pre16);
+
+		/*
+		stones.add(preTile1);
+		stones.add(preTile2);
+		stones.add(preTile3);
+		stones.add(preTile4);
+		stones.add(preTile5);
+		stones.add(preTile6);
+		stones.add(preTile7);
+		stones.add(preTile8);
+		stones.add(preTile9);
+		stones.add(preTile10);
+		stones.add(preTile11);
+		stones.add(preTile12);
+		stones.add(preTile13);
+		stones.add(preTile14);
+		stones.add(preTile15);
 		stones.add(preTile16);
+		*/
 	}
 
 	private void placingStones () {
