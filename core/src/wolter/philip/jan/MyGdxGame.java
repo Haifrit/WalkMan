@@ -31,7 +31,7 @@ public class MyGdxGame extends ApplicationAdapter {
 	private static final int GAME_X_WIDTH = 288;
 	private static final int GAME_Y_HEIGHT = 384;
 	private static final int WALKER_START_X = (GAME_X_WIDTH / 2) - 5;
-	private static final int WALKER_START_Y = GAME_Y_HEIGHT - 96;
+	private static final int WALKER_START_Y = GAME_Y_HEIGHT - 64;
 
 	BitmapFont bitmapFont;
 	RandomGenerator randomGenerator;
