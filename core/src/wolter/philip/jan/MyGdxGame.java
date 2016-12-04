@@ -191,26 +191,6 @@ public class MyGdxGame extends ApplicationAdapter {
 		AstarPosition pre15 = new AstarPosition(1, -1);
 		AstarPosition pre16 = new AstarPosition(0, -1);
 
-		/*
-		BackgroundTile preTile1 = new BackgroundTile((8 * 32), (10 * 32),trStone);
-		BackgroundTile preTile2 = new BackgroundTile((7 * 32), (10 * 32),trStone);
-		BackgroundTile preTile3 = new BackgroundTile((6 * 32), (10 * 32),trStone);
-		BackgroundTile preTile4 = new BackgroundTile((5 * 32), (10 * 32),trStone);
-		BackgroundTile preTile5 = new BackgroundTile((3 * 32), (10 * 32),trStone);
-		BackgroundTile preTile6 = new BackgroundTile((2 * 32), (10 * 32),trStone);
-		BackgroundTile preTile7 = new BackgroundTile((1 * 32), (10 * 32),trStone);
-		BackgroundTile preTile8 = new BackgroundTile((0 * 32), (10 * 32),trStone);
-
-		BackgroundTile preTile9 = new BackgroundTile((8 * 32), (0 * 32),trStone);
-		BackgroundTile preTile10 = new BackgroundTile((7 * 32), (0 * 32),trStone);
-		BackgroundTile preTile11 = new BackgroundTile((6 * 32), (0 * 32),trStone);
-		BackgroundTile preTile12 = new BackgroundTile((5 * 32), (0 * 32),trStone);
-		BackgroundTile preTile13 = new BackgroundTile((3 * 32), (0 * 32),trStone);
-		BackgroundTile preTile14 = new BackgroundTile((2 * 32), (0 * 32),trStone);
-		BackgroundTile preTile15 = new BackgroundTile((1 * 32), (0 * 32),trStone);
-		BackgroundTile preTile16 = new BackgroundTile((0 * 32), (0 * 32),trStone);
-		*/
-
 		astarPositionList.add(pre1);
 		astarPositionList.add(pre2);
 		astarPositionList.add(pre3);
@@ -227,27 +207,12 @@ public class MyGdxGame extends ApplicationAdapter {
 		astarPositionList.add(pre14);
 		astarPositionList.add(pre15);
 		astarPositionList.add(pre16);
-
-		/*
-		stones.add(preTile1);
-		stones.add(preTile2);
-		stones.add(preTile3);
-		stones.add(preTile4);
-		stones.add(preTile5);
-		stones.add(preTile6);
-		stones.add(preTile7);
-		stones.add(preTile8);
-		stones.add(preTile9);
-		stones.add(preTile10);
-		stones.add(preTile11);
-		stones.add(preTile12);
-		stones.add(preTile13);
-		stones.add(preTile14);
-		stones.add(preTile15);
-		stones.add(preTile16);
-		*/
 	}
 
+	/**
+	 * TextureCords // Hier werden die Steine "aufgenommen"
+	 * BackgroundTiles always have coords with multiples of 32
+	 */
 	private void placingStones () {
 		if (Gdx.input.isTouched()) {
 			Gdx.app.log("Touch", "Screen has been touched");
@@ -299,6 +264,9 @@ public class MyGdxGame extends ApplicationAdapter {
 		return isIn;
 	}
 
+	/**
+	 * TextureCords // convert und add muss geändert werden
+	 */
 	private void convertTextureToAstarGridAndAddToFuture (int xPos, int yPos) {
 		int xPosition = (int) (xPos / 32);
 		int yPosition = (int) (yPos / 32);
@@ -306,6 +274,9 @@ public class MyGdxGame extends ApplicationAdapter {
 		futureList.add(astarPosition);
 	}
 
+	/**
+	 * TextureCords // float zu int dann zu Astar diese Methode sollte die einzige sein in der umgerechnet wird
+	 */
 	private AstarPosition convertTexturePositionToAstarPosition (float vectorX, float vectorY) {
 		int xPosition = (int) (vectorX / 32);
 		int yPosition = (int) (vectorY / 32);
@@ -313,6 +284,12 @@ public class MyGdxGame extends ApplicationAdapter {
 		return astarPosition;
 	}
 
+	/**
+	 * TextureCords // Umwandlung von float zu int
+	 * This Method takes float input from a touch on the screen.
+	 * Since Stones are only allowed to be blaced on a grid of predifinded positions
+	 * this method will round the input up or down to the nearest multiple of 32.
+	 */
 	private int calculateStoneXY(float vector) {
 		Gdx.app.log("Touch", "X Touch vector as float" + vector);
 		int erg = (int) (vector / 32);
@@ -320,6 +297,9 @@ public class MyGdxGame extends ApplicationAdapter {
 		return erg * 32;
 	}
 
+	/**
+	 * TextureCords
+	 */
 	private void createInitialBackgroundTiles () {
 		for (int x = 0; x <= GAME_X_WIDTH; x = x + 32) {
 			for (int y = 0; y <= GAME_Y_HEIGHT - 96; y = y + 32) {
@@ -374,6 +354,9 @@ public class MyGdxGame extends ApplicationAdapter {
 		}
 	}
 
+	/**
+	 * TextureCords
+	 */
 	private void drawBackgroundFromList () {
 		for (BackgroundTile backgroundTile : backgroundTileList) {
 			batch.draw(backgroundTile.getTexture(),backgroundTile.getxPosition(),backgroundTile.getyPosition());
@@ -390,6 +373,9 @@ public class MyGdxGame extends ApplicationAdapter {
 		return isInGameField;
 	}
 
+	/**
+	 * TextureCords
+	 */
 	private void drawStoneCount () {
 		bitmapFont.setColor(1.0f, 1.0f, 1.0f, 1.0f);
 		bitmapFont.getData().setScale(2,2);
